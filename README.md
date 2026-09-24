@@ -33,6 +33,13 @@ Conecta el móvil y el ordenador a la misma Wi-Fi y ejecuta `npm run studio`. La
 
 El Studio crea slug, fecha, extracto, tiempo estimado, frontmatter, imagen optimizada, copia original, metadata SEO, OpenGraph, registro de home y categoría. Si Git falla, el contenido permanece guardado y el Studio muestra el comando pendiente.
 
+Antes de publicar por primera vez, configura la identidad de Git una sola vez:
+
+```powershell
+git config --global user.name "Tu nombre"
+git config --global user.email "tu@email.com"
+```
+
 ## Comandos de comprobación
 
 ```bash

@@ -72,6 +72,10 @@ function articleMarkdown({ title, slug, date, excerpt, image, imageAlt, category
 }
 
 async function runGit(args) { return execFileAsync('git', args, { cwd: root, windowsHide: true }); }
+async function gitConfigValue(key) {
+  try { return (await runGit(['config', '--get', key])).stdout.trim(); }
+  catch { return ''; }
+}
 
 async function saveArticle(form, shouldPublish, publicHost = '127.0.0.1') {
   const title = String(form.get('title') || '').trim();
@@ -102,12 +106,17 @@ async function saveArticle(form, shouldPublish, publicHost = '127.0.0.1') {
   const response = { ok: true, slug, url: `http://${publicHost}:${astroPort}/articulos/${slug}/`, draft: !shouldPublish, markdownPath: path.relative(root, markdownPath) };
   if (!shouldPublish) return response;
   try {
+    const gitName = await gitConfigValue('user.name');
+    const gitEmail = await gitConfigValue('user.email');
+    if (!gitName || !gitEmail) {
+      return { ...response, pushed: false, error: 'El artículo está guardado, pero Git no tiene configurados tu nombre y correo.', command: 'git config --global user.name "Tu nombre"\ngit config --global user.email "tu@email.com"\n\nDespués vuelve a pulsar PUBLICAR Y ENVIAR A GIT.' };
+    }
     await runGit(['add', '--', path.relative(root, markdownPath), path.relative(root, uploadDir), path.relative(root, mediaDir)]);
     await runGit(['commit', '-m', `Publicar: ${title}`]); await runGit(['push']);
     return { ...response, pushed: true, message: 'Artículo guardado, commit creado y push enviado.' };
   } catch (error) {
     const detail = `${error.stderr || error.message || error}`.toString().trim();
-    return { ...response, pushed: false, error: `El artículo está guardado, pero Git no pudo completar la publicación. ${detail}`, command: `git add -- "${path.relative(root, markdownPath)}" "public/uploads" "src/content/media" && git commit -m "Publicar: ${title.replaceAll('"', '')}" && git push` };
+    return { ...response, pushed: false, error: `El artículo está guardado, pero Git no pudo completar la publicación. ${detail}`, command: `git add -- "${path.relative(root, markdownPath)}" "public/uploads" "src/content/media"\ngit commit -m "Publicar: ${title.replaceAll('"', '')}"\ngit push` };
   }
 }
 
