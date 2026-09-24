@@ -1,12 +1,12 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import { articlePath, categoryPath } from '../lib/content';
+import { articlePath, categoryPath, sitePath } from '../lib/content';
 import { categoryLabel } from '../config/site';
 
 interface Props { article: CollectionEntry<'articles'>; compact?: boolean; }
 const { article, compact = false } = Astro.props;
 const { data } = article;
-const imageSrc = data.image.startsWith('/') ? `${import.meta.env.BASE_URL}${data.image.slice(1)}` : data.image;
+const imageSrc = sitePath(data.image);
 ---
 <article class:list={['article-card', { compact }]}>
   <a class="card-image" href={articlePath(data.slug)} aria-label={`Leer ${data.title}`}>

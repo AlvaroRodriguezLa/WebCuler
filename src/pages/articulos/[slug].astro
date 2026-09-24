@@ -1,7 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { categoryPath, readingTime } from '../../lib/content';
+import { categoryPath, readingTime, sitePath } from '../../lib/content';
 import { categoryLabel } from '../../config/site';
 
 export async function getStaticPaths() {
@@ -13,7 +13,7 @@ const { article } = Astro.props;
 const { Content } = await render(article);
 const { data } = article;
 const description = data.excerpt || `Análisis de ${data.title} en ${categoryLabel(data.category)}.`;
-const imageSrc = data.image.startsWith('/') ? `${import.meta.env.BASE_URL}${data.image.slice(1)}` : data.image;
+const imageSrc = sitePath(data.image);
 const articleUrl = `${import.meta.env.BASE_URL}articulos/${data.slug}/`;
 const socialImage = `${import.meta.env.BASE_URL}social/${data.slug}.png`;
 ---

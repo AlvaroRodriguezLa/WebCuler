@@ -2,14 +2,14 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ArticleCard from '../components/ArticleCard.astro';
 import SectionHeading from '../components/SectionHeading.astro';
-import { getPublishedArticles, articlePath, categoryPath } from '../lib/content';
+import { getPublishedArticles, articlePath, categoryPath, sitePath } from '../lib/content';
 import { categoryConfig, categoryLabel, siteConfig } from '../config/site';
 
 const articles = await getPublishedArticles();
 const featured = articles.find((article) => article.data.featured) || articles.find((article) => article.data.evergreen) || articles[0];
 const evergreen = articles.filter((article) => article.data.evergreen && article.id !== featured?.id).slice(0, 6);
 const market = articles.filter((article) => article.data.archive === 'mercado-2026-27').slice(0, 4);
-const featuredImage = featured && (featured.data.image.startsWith('/') ? `${import.meta.env.BASE_URL}${featured.data.image.slice(1)}` : featured.data.image);
+const featuredImage = featured && sitePath(featured.data.image);
 ---
 <BaseLayout title={siteConfig.name} description={siteConfig.description}>
   <div class="wrapper home-intro">
