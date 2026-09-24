@@ -20,6 +20,10 @@ Se abrirán dos servicios locales. Abre [http://127.0.0.1:4322](http://127.0.0.1
 
 La navegación editorial está en `4321`; `4322` es únicamente el Studio de publicación y no contiene las secciones de la web pública.
 
+### Abrir el Studio desde el móvil
+
+Conecta el móvil y el ordenador a la misma Wi-Fi y ejecuta `npm run studio`. La terminal mostrará una dirección como `http://192.168.1.25:4322`; abre esa dirección desde el móvil. Si Windows muestra una alerta del Firewall, permite Node.js únicamente en redes privadas. No uses esta dirección en una Wi-Fi pública: el Studio permite guardar archivos y ejecutar acciones Git en el ordenador.
+
 1. Escribe el título.
 2. Pega el texto en Markdown.
 3. Arrastra una imagen PNG, JPG o WebP.

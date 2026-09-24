@@ -4,12 +4,14 @@ import { promisify } from 'node:util';
 import { readFile, mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { existsSync } from 'node:fs';
+import os from 'node:os';
 import sharp from 'sharp';
 
 const execFileAsync = promisify(execFile);
 const root = process.cwd();
 const port = 4322;
 const astroPort = 4321;
+const bindHost = process.env.STUDIO_HOST || '0.0.0.0';
 const studioDir = path.join(root, 'studio');
 const contentDir = path.join(root, 'src', 'content', 'articles');
 const mediaDir = path.join(root, 'src', 'content', 'media');
@@ -31,7 +33,7 @@ function articleMarkdown({ title, slug, date, excerpt, image, imageAlt, category
 
 async function runGit(args) { return execFileAsync('git', args, { cwd: root, windowsHide: true }); }
 
-async function saveArticle(form, shouldPublish) {
+async function saveArticle(form, shouldPublish, publicHost = '127.0.0.1') {
   const title = String(form.get('title') || '').trim();
   const text = String(form.get('text') || '').trim();
   const image = form.get('image');
@@ -57,7 +59,7 @@ async function saveArticle(form, shouldPublish) {
   const article = articleMarkdown({ title, slug, date, excerpt, image: publicImage, imageAlt, category, tags, subtitle: String(form.get('subtitle') || '').trim(), subject: String(form.get('subject') || '').trim(), season: String(form.get('season') || '').trim(), featured: form.get('featured') === 'true', evergreen: form.get('evergreen') === 'true', draft: !shouldPublish, imageFit: String(form.get('imageFit') || 'contain'), imagePosition: String(form.get('imagePosition') || 'center'), archive: String(form.get('archive') || '').trim(), text });
   const markdownPath = path.join(contentDir, `${slug}.md`);
   await mkdir(contentDir, { recursive: true }); await writeFile(markdownPath, article, 'utf8');
-  const response = { ok: true, slug, url: `http://127.0.0.1:${astroPort}/articulos/${slug}/`, draft: !shouldPublish, markdownPath: path.relative(root, markdownPath) };
+  const response = { ok: true, slug, url: `http://${publicHost}:${astroPort}/articulos/${slug}/`, draft: !shouldPublish, markdownPath: path.relative(root, markdownPath) };
   if (!shouldPublish) return response;
   try {
     await runGit(['add', '--', path.relative(root, markdownPath), path.relative(root, uploadDir), path.relative(root, mediaDir)]);
@@ -80,13 +82,19 @@ async function serveStatic(req, res) {
 }
 
 const astroCli = path.join(root, 'node_modules', 'astro', 'astro.js');
-const astro = spawn(process.execPath, [astroCli, 'dev', '--host', '127.0.0.1', '--port', String(astroPort)], { cwd: root, stdio: 'inherit', windowsHide: true });
+const astro = spawn(process.execPath, [astroCli, 'dev', '--host', bindHost, '--port', String(astroPort)], { cwd: root, stdio: 'inherit', windowsHide: true });
 const server = createServer(async (req, res) => {
   try {
-    if (req.method === 'POST' && req.url === '/api/articles') { const form = await req.formData(); const result = await saveArticle(form, form.get('action') === 'publish'); json(res, result.ok ? 200 : result.status || 500, result); return; }
+    if (req.method === 'POST' && req.url === '/api/articles') { const form = await req.formData(); const publicHost = (req.headers.host || '127.0.0.1').split(':')[0]; const result = await saveArticle(form, form.get('action') === 'publish', publicHost); json(res, result.ok ? 200 : result.status || 500, result); return; }
     await serveStatic(req, res);
   } catch (error) { json(res, 500, { ok: false, error: error.message }); }
 });
-server.listen(port, '127.0.0.1', () => console.log(`Studio local: http://127.0.0.1:${port}`));
+function lanAddresses() {
+  return Object.values(os.networkInterfaces()).flatMap((items) => items || []).filter((item) => item.family === 'IPv4' && !item.internal).map((item) => item.address);
+}
+server.listen(port, bindHost, () => {
+  console.log(`Studio local: http://127.0.0.1:${port}`);
+  for (const address of lanAddresses()) console.log(`Studio móvil (misma Wi-Fi): http://${address}:${port}`);
+});
 function close() { server.close(); astro.kill(); }
 process.on('SIGINT', close); process.on('SIGTERM', close);

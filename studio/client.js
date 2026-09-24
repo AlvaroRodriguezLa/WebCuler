@@ -7,6 +7,8 @@ const fileName = document.querySelector('#file-name');
 const preview = document.querySelector('#preview');
 const previewWrap = document.querySelector('#preview-wrap');
 const status = document.querySelector('#status');
+const siteOrigin = `${window.location.protocol}//${window.location.hostname}:4321`;
+document.querySelector('#site-link').href = `${siteOrigin}/`;
 let selectedFile = null;
 let previewUrl = '';
 const escapeHtml = (value) => value.replace(/[&<>'"]/g, (char) => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
@@ -17,7 +19,7 @@ function markdown(value) {
   return html.split(/\n{2,}/).map((block) => block.match(/^<(h2|h3|blockquote|ul)/) ? block : `<p>${block.replace(/\n/g, '<br>')}</p>`).join('');
 }
 function renderPreview() {
-  const heading = escapeHtml(title.value || 'Título del artículo'); const image = previewUrl || 'http://127.0.0.1:4321/images/editorial-placeholder.svg'; const category = escapeHtml(form.elements.category?.value || 'Análisis');
+  const heading = escapeHtml(title.value || 'Título del artículo'); const image = previewUrl || `${siteOrigin}/images/editorial-placeholder.svg`; const category = escapeHtml(form.elements.category?.value || 'Análisis');
   preview.innerHTML = `<div class="preview-grid"><div><div class="eyebrow">${category}</div><h1 class="preview-title">${heading}</h1><div class="preview-copy">${markdown(text.value || 'El texto del artículo aparecerá aquí.')}</div></div><aside class="preview-image"><img src="${image}" alt="Preview editorial"/><div class="preview-meta">ONE SHOT / vista previa<br>${form.elements.season?.value || 'sin temporada'}</div></aside></div>`;
 }
 function useFile(file) { if (!file || !file.type.startsWith('image/')) return; selectedFile = file; const transfer = new DataTransfer(); transfer.items.add(file); imageInput.files = transfer.files; previewUrl = URL.createObjectURL(file); fileName.textContent = file.name; renderPreview(); }
