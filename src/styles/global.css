@@ -66,7 +66,7 @@ img { max-width: 100%; display: block; }
 .article-title .subtitle { max-width: 40rem; font-size: 1.25rem; color: var(--muted); }
 .article-aside { grid-column: 2; grid-row: 1 / span 2; border-left: 1px solid var(--rule); padding-left: clamp(1rem, 2.5vw, 2.5rem); align-self: start; position: sticky; top: 1.5rem; }
 .article-aside figure { margin: 0; min-width: 0; }
-.article-aside img { width: 100%; max-height: 70vh; background: var(--paper-deep); }
+.article-aside img { width: 100%; max-height: 70vh; background: var(--paper); }
 .article-aside figcaption { padding-top: 1rem; margin-top: 1rem; border-top: 1px solid var(--rule); }
 .metadata { display: grid; gap: .8rem; padding-top: 1rem; }
 .meta-label { font-size: .73rem; letter-spacing: .28em; line-height: 1.4; text-transform: uppercase; color: var(--muted); }
@@ -74,7 +74,8 @@ img { max-width: 100%; display: block; }
 .article-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2rem; }
 .text-button { border: 1px solid var(--rule); background: transparent; color: var(--ink); padding: .7rem .9rem; font: inherit; font-size: .75rem; letter-spacing: .2em; text-transform: uppercase; cursor: pointer; }
 .text-button:hover { background: var(--ink); color: var(--paper); }
-.article-body { grid-column: 1; grid-row: 2; max-width: 42rem; padding-top: 3rem; font-size: var(--body-size); line-height: 1.7; }
+.article-body { grid-column: 1; grid-row: 2; max-width: 52rem; padding-top: 3rem; font-size: var(--body-size); line-height: 1.7; text-align: justify; text-justify: inter-word; }
+.article-body h2, .article-body h3, .article-body .article-lede { text-align: left; }
 .article-body p { margin: 0 0 1.55em; }
 .article-body h2, .article-body h3 { margin: 2.2em 0 .65em; line-height: 1; letter-spacing: -.04em; }
 .article-body h2 { font-size: 2.3rem; }

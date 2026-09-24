@@ -9,8 +9,8 @@ import sharp from 'sharp';
 
 const execFileAsync = promisify(execFile);
 const root = process.cwd();
-const port = 4322;
-const astroPort = 4321;
+const port = Number(process.env.STUDIO_PORT || 4322);
+const astroPort = Number(process.env.ASTRO_PORT || 4321);
 const bindHost = process.env.STUDIO_HOST || '0.0.0.0';
 const studioDir = path.join(root, 'studio');
 const contentDir = path.join(root, 'src', 'content', 'articles');
@@ -25,6 +25,46 @@ function yamlString(value) { return JSON.stringify(value ?? ''); }
 function excerptFrom(markdown) { return markdown.replace(/```[\s\S]*?```/g, '').replace(/[#>*_`\[\]]/g, '').replace(/\s+/g, ' ').trim().slice(0, 220); }
 function readingTime(markdown) { return Math.max(1, Math.ceil(markdown.trim().split(/\s+/).filter(Boolean).length / 220)); }
 function safeFileName(name) { return path.basename(name).replace(/[^a-zA-Z0-9._-]/g, '-'); }
+
+function readBody(req) {
+  return new Promise((resolve, reject) => {
+    const chunks = [];
+    req.on('data', (chunk) => chunks.push(chunk));
+    req.on('end', () => resolve(Buffer.concat(chunks)));
+    req.on('error', reject);
+  });
+}
+
+async function parseMultipart(req) {
+  const contentType = String(req.headers['content-type'] || '');
+  const boundaryMatch = contentType.match(/boundary=(?:"([^"]+)"|([^;]+))/i);
+  if (!boundaryMatch) throw new Error('La petición no contiene un boundary multipart válido.');
+  const boundary = Buffer.from(`--${boundaryMatch[1] || boundaryMatch[2]}`);
+  const body = await readBody(req);
+  const values = new Map();
+  let cursor = body.indexOf(boundary) + boundary.length;
+  while (cursor >= boundary.length && cursor < body.length) {
+    if (body.slice(cursor, cursor + 2).toString() === '--') break;
+    if (body.slice(cursor, cursor + 2).toString() === '\r\n') cursor += 2;
+    const next = body.indexOf(boundary, cursor);
+    if (next < 0) break;
+    const part = body.slice(cursor, next - 2);
+    const headerEnd = part.indexOf(Buffer.from('\r\n\r\n'));
+    if (headerEnd < 0) { cursor = next + boundary.length; continue; }
+    const headers = part.slice(0, headerEnd).toString('utf8');
+    const payload = part.slice(headerEnd + 4);
+    const nameMatch = headers.match(/name="([^"]+)"/i);
+    if (!nameMatch) { cursor = next + boundary.length; continue; }
+    const fileMatch = headers.match(/filename="([^"]*)"/i);
+    const typeMatch = headers.match(/content-type:\s*([^\r\n]+)/i);
+    const value = fileMatch
+      ? new File([payload], fileMatch[1], { type: typeMatch?.[1] || 'application/octet-stream' })
+      : payload.toString('utf8');
+    values.set(nameMatch[1], value);
+    cursor = next + boundary.length;
+  }
+  return { get(name) { return values.get(name); } };
+}
 
 function articleMarkdown({ title, slug, date, excerpt, image, imageAlt, category, tags, subtitle, subject, season, featured, evergreen, draft, imageFit, imagePosition, archive, text }) {
   const tagsYaml = `[${tags.map((tag) => yamlString(tag)).join(', ')}]`;
@@ -85,7 +125,7 @@ const astroCli = path.join(root, 'node_modules', 'astro', 'astro.js');
 const astro = spawn(process.execPath, [astroCli, 'dev', '--host', bindHost, '--port', String(astroPort)], { cwd: root, stdio: 'inherit', windowsHide: true });
 const server = createServer(async (req, res) => {
   try {
-    if (req.method === 'POST' && req.url === '/api/articles') { const form = await req.formData(); const publicHost = (req.headers.host || '127.0.0.1').split(':')[0]; const result = await saveArticle(form, form.get('action') === 'publish', publicHost); json(res, result.ok ? 200 : result.status || 500, result); return; }
+    if (req.method === 'POST' && req.url === '/api/articles') { const form = await parseMultipart(req); const publicHost = (req.headers.host || '127.0.0.1').split(':')[0]; const result = await saveArticle(form, form.get('action') === 'publish', publicHost); json(res, result.ok ? 200 : result.status || 500, result); return; }
     await serveStatic(req, res);
   } catch (error) { json(res, 500, { ok: false, error: error.message }); }
 });
