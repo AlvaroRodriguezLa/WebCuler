@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.astro/
+.tmp-pdf/
+public/social/
+.sites-runtime/
+.DS_Store

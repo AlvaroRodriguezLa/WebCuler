@@ -1,0 +1,67 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { categoryPath, readingTime } from '../../lib/content';
+import { categoryLabel } from '../../config/site';
+
+export async function getStaticPaths() {
+  const articles = await getCollection('articles', ({ data }) => !data.draft);
+  return articles.map((article) => ({ params: { slug: article.data.slug }, props: { article } }));
+}
+
+const { article } = Astro.props;
+const { Content } = await render(article);
+const { data } = article;
+const description = data.excerpt || `Análisis de ${data.title} en ${categoryLabel(data.category)}.`;
+const imageSrc = data.image.startsWith('/') ? `${import.meta.env.BASE_URL}${data.image.slice(1)}` : data.image;
+const articleUrl = `${import.meta.env.BASE_URL}articulos/${data.slug}/`;
+const socialImage = `${import.meta.env.BASE_URL}social/${data.slug}.png`;
+---
+<BaseLayout title={data.title} description={description} canonical={new URL(articleUrl, Astro.site || 'https://example.github.io').toString()} socialImage={socialImage}>
+  <article class="article-page">
+    <div class="article-grid">
+      <header class="article-title">
+        <p class="eyebrow"><a href={categoryPath(data.category)}>{categoryLabel(data.category)}</a>{data.season && ` / ${data.season}`}</p>
+        <h1>{data.title}</h1>
+        {data.subtitle && <p class="subtitle">{data.subtitle}</p>}
+      </header>
+      <aside class="article-aside">
+        <figure>
+          <img src={imageSrc} alt={data.imageAlt} style={`object-fit:${data.imageFit};object-position:${data.imagePosition}`} />
+          <figcaption>
+            <div class="metadata">
+              <div><div class="meta-label">Publicado</div><div class="meta-value"><time datetime={data.date.toISOString()}>{data.date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' })}</time></div></div>
+              {data.subject && <div><div class="meta-label">Subject</div><div class="meta-value">{data.subject}</div></div>}
+              {data.season && <div><div class="meta-label">Temporada</div><div class="meta-value">{data.season}</div></div>}
+              <div><div class="meta-label">Lectura</div><div class="meta-value">{data.readingTime || readingTime(article.body || data.excerpt)} min</div></div>
+            </div>
+            <div class="article-actions">
+              <button class="text-button" type="button" data-copy-link data-url={new URL(articleUrl, Astro.site || 'https://example.github.io').toString()}>Copiar enlace</button>
+              <a class="text-button" href={`https://x.com/intent/post?text=${encodeURIComponent(`${data.title} — ${new URL(articleUrl, Astro.site || 'https://example.github.io').toString()}`)}`} target="_blank" rel="noreferrer">Compartir en X</a>
+            </div>
+            {data.tags.length > 0 && <div class="tags">{data.tags.map((tag) => <span class="tag">#{tag}</span>)}</div>}
+          </figcaption>
+        </figure>
+      </aside>
+      <div class="article-body">
+        {data.excerpt && <p class="article-lede"><strong>{data.excerpt}</strong></p>}
+        <Content />
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<script>
+  document.querySelectorAll('[data-copy-link]').forEach((button) => {
+    button.addEventListener('click', async () => {
+      const url = button.getAttribute('data-url') || window.location.href;
+      try {
+        await navigator.clipboard.writeText(url);
+        button.textContent = 'Enlace copiado';
+        setTimeout(() => button.textContent = 'Copiar enlace', 1800);
+      } catch {
+        button.textContent = 'Copia el enlace';
+      }
+    });
+  });
+</script>

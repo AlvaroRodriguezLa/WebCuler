@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1200">
+  <rect width="900" height="1200" fill="#d8d5ce"/>
+  <rect x="50" y="50" width="800" height="1100" fill="none" stroke="#20201f" stroke-width="2"/>
+  <path d="M50 330h800M50 790h800M300 50v1100M600 50v1100" fill="none" stroke="#898780" stroke-width="2"/>
+  <text x="92" y="180" fill="#20201f" font-family="Arial,Helvetica,sans-serif" font-size="72" font-weight="700">ONE SHOT</text>
+  <text x="92" y="440" fill="#8c201d" font-family="Arial,Helvetica,sans-serif" font-size="30" letter-spacing="8">IMAGEN EDITORIAL</text>
+  <text x="92" y="500" fill="#20201f" font-family="Arial,Helvetica,sans-serif" font-size="46">Añadir desde Studio</text>
+  <text x="92" y="1030" fill="#20201f" font-family="Arial,Helvetica,sans-serif" font-size="26" letter-spacing="5">PLACEHOLDER / REEMPLAZAR</text>
+</svg>

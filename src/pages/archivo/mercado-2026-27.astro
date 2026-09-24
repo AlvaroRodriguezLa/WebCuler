@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import { getCollection } from 'astro:content';
+
+const articles = (await getCollection('articles', ({ data }) => !data.draft && data.archive === 'mercado-2026-27'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+<BaseLayout title="Mercado 2026/27" description="Archivo de mercado 2026/27 de ONE SHOT.">
+  <section class="wrapper page-intro">
+    <p class="eyebrow">Archivo / Mercado 2026-27</p>
+    <h1>Una temporada de decisiones.</h1>
+    <p>Este archivo conserva las piezas de mercado separadas de la identidad futura de la publicación.</p>
+  </section>
+  <section class="wrapper article-grid-list">
+    {articles.map((article) => <ArticleCard article={article} />)}
+  </section>
+</BaseLayout>

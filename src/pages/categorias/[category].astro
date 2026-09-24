@@ -1,0 +1,24 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import { categoryConfig, categorySlug } from '../../config/site';
+
+export async function getStaticPaths() {
+  return categoryConfig.map((category) => ({ params: { category: category.slug }, props: { category } }));
+}
+
+const { category } = Astro.props;
+const articles = (await getCollection('articles', ({ data }) => !data.draft && categorySlug(data.category) === category.slug))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+<BaseLayout title={category.label} description={`Artículos de ${category.label} en ${category.source}.`}>
+  <section class="wrapper page-intro">
+    <p class="eyebrow">Sección</p>
+    <h1>{category.label}</h1>
+    <p>{category.source}. Un archivo de ideas, perfiles y decisiones sobre cómo construir el Barça.</p>
+  </section>
+  <section class="wrapper article-grid-list" aria-label={`Artículos de ${category.label}`}>
+    {articles.length > 0 ? articles.map((article) => <ArticleCard article={article} />) : <p>Aún no hay artículos publicados en esta sección.</p>}
+  </section>
+</BaseLayout>

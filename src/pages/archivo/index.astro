@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPublishedArticles, articlePath } from '../../lib/content';
+
+const articles = await getPublishedArticles();
+---
+<BaseLayout title="Archivo" description="Archivo editorial de ONE SHOT.">
+  <section class="wrapper page-intro">
+    <p class="eyebrow">Archivo</p>
+    <h1>Todo lo publicado.</h1>
+    <p>Una lectura cronológica de la publicación, con el mercado 2026/27 conservado como archivo histórico.</p>
+  </section>
+  <section class="wrapper archive-list">
+    {articles.map((article) => <a class="archive-row" href={articlePath(article.data.slug)}>
+      <h2>{article.data.title}</h2>
+      <p>{article.data.excerpt}</p>
+      <time datetime={article.data.date.toISOString()}>{article.data.date.toLocaleDateString('es-ES')}</time>
+    </a>)}
+  </section>
+</BaseLayout>

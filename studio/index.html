@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ONE SHOT / Studio local</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header class="studio-header"><a href="http://127.0.0.1:4321/" target="_blank">ONE SHOT</a><span>Studio local / 127.0.0.1</span></header>
+    <main class="studio-shell">
+      <section class="editor-panel">
+        <p class="eyebrow">Publisher local</p>
+        <h1>Publicar un artículo.</h1>
+        <p class="intro">Escribe lo esencial, arrastra una imagen y revisa la pieza antes de guardarla o enviarla a Git.</p>
+        <form id="article-form">
+          <label>Título <input id="title" name="title" required placeholder="Perfil Faltante" /></label>
+          <label>Texto <textarea id="text" name="text" required placeholder="Pega aquí el artículo en Markdown..."></textarea></label>
+          <div class="toolbar" aria-label="Formato Markdown">
+            <button type="button" data-wrap="**">Bold</button><button type="button" data-wrap="*">Italic</button><button type="button" data-prefix="## ">Heading</button><button type="button" data-prefix="> ">Quote</button><button type="button" data-link="true">Link</button>
+          </div>
+          <label class="dropzone" id="dropzone">Imagen <input id="image" name="image" type="file" accept="image/png,image/jpeg,image/webp" required /><span>Arrastra PNG, JPG o WebP aquí<br /><small>La imagen original se conserva.</small></span></label>
+          <div class="file-name" id="file-name">Ninguna imagen seleccionada</div>
+          <details>
+            <summary>Opciones avanzadas</summary>
+            <div class="advanced-grid">
+              <label>Categoría <input name="category" placeholder="Análisis" /></label>
+              <label>Subtítulo <input name="subtitle" /></label>
+              <label>Subject / jugador <input name="subject" /></label>
+              <label>Temporada <input name="season" placeholder="2026-2027" /></label>
+              <label>Fecha <input name="date" type="date" /></label>
+              <label>Tags <input name="tags" placeholder="táctica, Barça" /></label>
+              <label>Image fit <select name="imageFit"><option value="contain">contain / imagen completa</option><option value="cover">cover / recorte</option></select></label>
+              <label>Image position <input name="imagePosition" value="center" /></label>
+              <label class="wide">Excerpt <textarea name="excerpt" rows="3"></textarea></label>
+              <label class="wide">Alt <input name="imageAlt" placeholder="Se genera desde el título si lo dejas vacío" /></label>
+              <label class="check"><input name="featured" type="checkbox" value="true" /> Featured</label>
+              <label class="check"><input name="evergreen" type="checkbox" value="true" /> Evergreen</label>
+              <label class="check"><input name="draft" type="checkbox" value="true" /> Draft</label>
+            </div>
+          </details>
+          <div class="actions"><button class="secondary" type="button" id="save-draft">GUARDAR BORRADOR</button><button class="primary" type="button" id="publish">PUBLICAR Y ENVIAR A GIT</button></div>
+          <p class="status" id="status" role="status"></p>
+        </form>
+      </section>
+      <section class="preview-panel">
+        <div class="preview-toolbar"><span>Preview</span><div><button class="device active" data-device="desktop">Desktop</button><button class="device" data-device="mobile">Móvil</button></div></div>
+        <div class="preview-wrap desktop" id="preview-wrap"><article class="preview-page" id="preview"></article></div>
+      </section>
+    </main>
+    <script src="/client.js"></script>
+  </body>
+</html>

@@ -1,0 +1,25 @@
+{
+  "name": "one-shot-editorial",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev --host 127.0.0.1 --port 4321",
+    "studio": "node studio/server.mjs",
+    "check": "astro check",
+    "prebuild": "node scripts/generate-social-cards.mjs",
+    "build": "astro build",
+    "test": "node tests/smoke.test.mjs"
+  },
+  "dependencies": {
+    "@astrojs/rss": "^4.0.0",
+    "@astrojs/sitemap": "^3.2.0",
+    "astro": "^5.14.1",
+    "sharp": "^0.34.3"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@types/node": "^22.15.0",
+    "typescript": "^5.8.3"
+  }
+}
