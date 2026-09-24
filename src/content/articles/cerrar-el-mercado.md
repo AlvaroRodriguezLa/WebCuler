@@ -1,20 +1,20 @@
 ---
-title: "Cerrar el Mercado"
+title: "Cerrar el mercado"
 slug: cerrar-el-mercado
 date: "2026-09-24"
 excerpt: "Tras la negativa del Atlético a vender a Julián, yo no entraría en una guerra interminable ni gastaría todo ese dinero en forzar una operación. Aprovecharía precisamente ese margen para repartir el riesgo, ganar informac"
-image: /uploads/cerrar-el-mercado-1790262080297.webp
-imageAlt: "Imagen editorial para Cerrar el Mercado"
+image: /uploads/cerrar-el-mercado-1790263144679.webp
+imageAlt: "Imagen editorial para Cerrar el mercado"
 category: "Mercado"
 tags: ["Barça"]
 subtitle: "COMPLETAR PLANTILLA"
-season: "2026/2027"
+season: "2026-2027"
 featured: false
 evergreen: false
 draft: false
 readingTime: 2
 imageFit: contain
-imagePosition: bottom
+imagePosition: center
 ---
 
 Tras la negativa del Atlético a vender a **Julián**, yo no entraría en una guerra interminable ni gastaría todo ese dinero en forzar una operación. Aprovecharía precisamente ese margen para repartir el riesgo, ganar información y mejorar varias zonas de la plantilla a la vez.
