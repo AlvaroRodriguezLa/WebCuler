@@ -13,6 +13,8 @@ const { title = siteConfig.name, description = siteConfig.description, canonical
 const fullTitle = title === siteConfig.name ? title : `${title} — ${siteConfig.name}`;
 const canonicalUrl = canonical || new URL(Astro.url.pathname, Astro.site || siteConfig.baseUrl).toString();
 const ogImage = socialImage ? new URL(socialImage, Astro.site || siteConfig.baseUrl).toString() : undefined;
+const homeBase = import.meta.env.BASE_URL || '/';
+const sectionsHref = `${homeBase.endsWith('/') ? homeBase : `${homeBase}/`}#secciones`;
 ---
 <!doctype html>
 <html lang={siteConfig.language}>
@@ -42,7 +44,7 @@ const ogImage = socialImage ? new URL(socialImage, Astro.site || siteConfig.base
       <p class="header-note">{siteConfig.tagline}</p>
       <nav aria-label="Navegación principal">
         <a href={`${import.meta.env.BASE_URL}archivo/`}>Archivo</a>
-        <a href={`${import.meta.env.BASE_URL}#secciones`}>Secciones</a>
+        <a href={sectionsHref}>Secciones</a>
       </nav>
     </header>
     <main id="contenido">

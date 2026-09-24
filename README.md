@@ -18,6 +18,8 @@ npm run studio
 
 Se abrirán dos servicios locales. Abre [http://127.0.0.1:4322](http://127.0.0.1:4322) para el Studio y [http://127.0.0.1:4321](http://127.0.0.1:4321) para la web.
 
+La navegación editorial está en `4321`; `4322` es únicamente el Studio de publicación y no contiene las secciones de la web pública.
+
 1. Escribe el título.
 2. Pega el texto en Markdown.
 3. Arrastra una imagen PNG, JPG o WebP.
