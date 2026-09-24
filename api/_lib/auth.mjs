@@ -56,6 +56,10 @@ export function requestOrigin(req) {
   return `${protocol}://${host}`;
 }
 
+export function publicOrigin(req) {
+  return process.env.STUDIO_PUBLIC_URL || requestOrigin(req);
+}
+
 export function requireConfig() {
   const required = ['GITHUB_APP_CLIENT_ID', 'GITHUB_APP_CLIENT_SECRET', 'STUDIO_ALLOWED_USER_ID', 'STUDIO_SESSION_SECRET'];
   const missing = required.filter((key) => !process.env[key]);
