@@ -108,8 +108,12 @@ async function saveArticle(form, shouldPublish, publicHost = '127.0.0.1') {
   try {
     const gitName = await gitConfigValue('user.name');
     const gitEmail = await gitConfigValue('user.email');
-    if (!gitName || !gitEmail) {
+    if (!gitName || !gitEmail || gitName === 'Tu nombre' || gitEmail === 'tu-email@ejemplo.com') {
       return { ...response, pushed: false, error: 'El artículo está guardado, pero Git no tiene configurados tu nombre y correo.', command: 'git config --global user.name "Tu nombre"\ngit config --global user.email "tu@email.com"\n\nDespués vuelve a pulsar PUBLICAR Y ENVIAR A GIT.' };
+    }
+    const remote = await gitConfigValue('remote.origin.url');
+    if (!remote) {
+      return { ...response, pushed: false, error: 'El artículo está guardado, pero este repositorio no tiene configurado un remoto origin.', command: 'git remote add origin https://github.com/TU_USUARIO/TU_REPOSITORIO.git\ngit push -u origin main\n\nDespués vuelve a pulsar PUBLICAR Y ENVIAR A GIT.' };
     }
     await runGit(['add', '--', path.relative(root, markdownPath), path.relative(root, uploadDir), path.relative(root, mediaDir)]);
     await runGit(['commit', '-m', `Publicar: ${title}`]); await runGit(['push']);
