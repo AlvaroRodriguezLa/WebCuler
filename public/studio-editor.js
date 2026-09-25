@@ -39,7 +39,7 @@
     const imageFit = form.elements.imageFit.value || 'contain';
     const imagePosition = form.elements.imagePosition.value || 'center';
     const season = escapeHtml(form.elements.season.value || 'sin temporada');
-    preview.innerHTML = `<div class="preview-grid"><div><div class="eyebrow">${category}</div><h1 class="preview-title">${heading}</h1><div class="preview-copy">${markdown(text.value || 'El texto del artículo aparecerá aquí.')}</div></div><aside class="preview-image"><img src="${escapeHtml(image)}" alt="Vista previa de la imagen" style="object-fit:${imageFit};object-position:${imagePosition};background:var(--paper)"/><div class="preview-meta">ONE SHOT / vista previa<br>${season}</div></aside></div>`;
+    preview.innerHTML = `<div class="preview-grid"><header class="preview-heading"><div class="eyebrow">${category}</div><h1 class="preview-title">${heading}</h1></header><aside class="preview-image"><img src="${escapeHtml(image)}" alt="Vista previa de la imagen" style="object-fit:${imageFit};object-position:${imagePosition};background:var(--paper)"/><div class="preview-meta">ONE SHOT / vista previa<br>${season}</div></aside><div class="preview-copy">${markdown(text.value || 'El texto del artículo aparecerá aquí.')}</div></div>`;
   }
 
   function chooseImage(file) {
