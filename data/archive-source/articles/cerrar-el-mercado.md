@@ -1,32 +1,27 @@
 ---
-title: Cerrar el Mercado
-slug: cerrar-el-mercado
-date: 2026-08-18
-excerpt: Tras la negativa del Atlético a vender a Julián, yo no entraría en una guerra interminable ni gastaría todo ese dinero en forzar una operación. Aprovecharía precisamente ese margen para repartir el riesgo, ganar…
-image: /images/articles/cerrar-el-mercado/legacy-1.jpg
-imageAlt: Cerrar el Mercado
-category: Construcción de plantilla
-tags:
-  - Woltemade
-  - Tresoldi
-  - Calafiori
-  - Lukeba
+title: "Cerrar el Mercado"
+slug: "cerrar-el-mercado"
+date: "2026-08-18"
+category: "Construcción de plantilla"
+excerpt: "Tras la negativa del Atlético a vender a Julián, yo no entraría en una guerra interminable ni gastaría todo ese dinero en forzar una operación. Aprovecharía precisamente ese margen para repartir el riesgo, ganar…"
 draft: false
 evergreen: false
 featured: false
-season: 2026-2027
-subject: Completar plantilla
-archive: mercado-2026-27
-imageFit: contain
-imagePosition: center
+migrationStatus: "canonical-existing"
+season: "2026-2027"
+subject: "Completar plantilla"
+image: "/images/articles/cerrar-el-mercado/legacy-1.jpg"
+imageAlt: "Cerrar el Mercado"
+archive: "mercado-2026-27"
+tags:
+  - "Woltemade"
+  - "Tresoldi"
+  - "Calafiori"
+  - "Lukeba"
 sourceTweetIds:
   - "2089846747266707587"
-sourceTweetUrls: []
 legacyVisuals:
-  - /images/articles/cerrar-el-mercado/legacy-1.jpg
-canonical: false
-publishedBase: false
-migrationStatus: canonical-existing
+  - "/images/articles/cerrar-el-mercado/legacy-1.jpg"
 ---
 
 Tras la negativa del Atlético a vender a Julián, yo no entraría en una guerra interminable ni gastaría todo ese dinero en forzar una operación. Aprovecharía precisamente ese margen para repartir el riesgo, ganar información y mejorar varias zonas de la plantilla a la vez.

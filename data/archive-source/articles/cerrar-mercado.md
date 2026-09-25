@@ -1,33 +1,27 @@
 ---
-title: Cerrar Mercado
-slug: cerrar-mercado
-date: 2026-07-27
+title: "Cerrar Mercado"
+slug: "cerrar-mercado"
+date: "2026-07-27"
+category: "Construcción de plantilla"
 excerpt: "Si hoy tuviera que cerrar la plantilla del Barça, mi apuesta sería muy clara: Eli Junior Kroupi Fisnik Asllani Castello Lukeba (y si no es posible, confiaría plenamente en Gerard Martín). No creo que haga falta mucho…"
-image: /images/articles/cerrar-mercado/legacy-1.png
-imageAlt: Cerrar Mercado
-category: Construcción de plantilla
-tags:
-  - Kroupi
-  - Asllani
-  - Lukeba
-  - Vlahović
 draft: false
 evergreen: false
 featured: false
-season: 2026-2027
-subject: Kroupi / Asllani / Lukeba
-archive: mercado-2026-27
-imageFit: contain
-imagePosition: center
+migrationStatus: "canonical-existing"
+season: "2026-2027"
+subject: "Kroupi / Asllani / Lukeba"
+image: "/images/articles/cerrar-mercado/legacy-1.jpg"
+imageAlt: "Cerrar Mercado"
+archive: "mercado-2026-27"
+tags:
+  - "Kroupi"
+  - "Asllani"
+  - "Lukeba"
+  - "Vlahović"
 sourceTweetIds:
   - "2081751357866803634"
-sourceTweetUrls:
-  - https://x.com/ScarFace2824/status/2081751357866803634
 legacyVisuals:
-  - /images/articles/cerrar-mercado/legacy-1.png
-canonical: true
-publishedBase: true
-migrationStatus: verified-from-attached-publication
+  - "/images/articles/cerrar-mercado/legacy-1.jpg"
 ---
 
 Si hoy tuviera que cerrar la plantilla del Barça, mi apuesta sería muy clara:
