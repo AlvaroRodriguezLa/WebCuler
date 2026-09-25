@@ -115,6 +115,12 @@ export async function authorizedSession(req, res) {
     error.status = 401;
     throw error;
   }
+  if (!session.accessToken) {
+    clearSession(res);
+    const error = new Error('Vuelve a entrar con GitHub para autorizar la publicación.');
+    error.status = 401;
+    throw error;
+  }
   if (session.tokenExpiresAt && session.tokenExpiresAt < Date.now() + 60_000) {
     if (!session.refreshToken || (session.refreshTokenExpiresAt && session.refreshTokenExpiresAt < Date.now())) {
       clearSession(res);
