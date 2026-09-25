@@ -8,11 +8,14 @@ export const siteConfig = {
 };
 
 export const categoryConfig = [
-  { slug: 'identidad', label: 'Identidad', source: 'Identidad Barça' },
-  { slug: 'tactica', label: 'Táctica', source: 'Táctica y encaje' },
+  { slug: 'identidad', label: 'Identidad', source: 'Identidad' },
+  { slug: 'tactica', label: 'Táctica', source: 'Táctica' },
   { slug: 'perfiles', label: 'Perfiles', source: 'Perfiles de jugador' },
-  { slug: 'historia', label: 'Historia', source: 'Historia' },
+  { slug: 'planificacion', label: 'Planificación', source: 'Planificación' },
   { slug: 'plantilla', label: 'Plantilla', source: 'Construcción de plantilla' },
+  { slug: 'cantera', label: 'Cantera / La Masia', source: 'Cantera' },
+  { slug: 'partidos', label: 'Partidos', source: 'Partidos' },
+  { slug: 'historia', label: 'Historia', source: 'Historia' },
 ];
 
 export function categorySlug(category: string) {
@@ -20,6 +23,9 @@ export function categorySlug(category: string) {
   if (normalized.includes('identidad')) return 'identidad';
   if (normalized.includes('tactica')) return 'tactica';
   if (normalized.includes('perfil')) return 'perfiles';
+  if (normalized.includes('planificacion')) return 'planificacion';
+  if (normalized.includes('cantera') || normalized.includes('masia')) return 'cantera';
+  if (normalized.includes('partido')) return 'partidos';
   if (normalized.includes('historia')) return 'historia';
   if (normalized.includes('plantilla') || normalized.includes('mercado')) return 'plantilla';
   return 'analisis';

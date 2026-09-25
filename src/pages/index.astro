@@ -8,6 +8,7 @@ import { categoryConfig, categoryLabel, siteConfig } from '../config/site';
 const articles = await getPublishedArticles();
 const featured = articles.find((article) => article.data.featured) || articles.find((article) => article.data.evergreen) || articles[0];
 const evergreen = articles.filter((article) => article.data.evergreen && article.id !== featured?.id).slice(0, 6);
+const latest = articles.filter((article) => !article.data.archive && article.id !== featured?.id).slice(0, 6);
 const market = articles.filter((article) => article.data.archive === 'mercado-2026-27').slice(0, 4);
 const featuredImage = featured && sitePath(featured.data.image);
 ---
@@ -32,7 +33,7 @@ const featuredImage = featured && sitePath(featured.data.image);
   <div id="secciones" class="wrapper sections">
     <SectionHeading label="Últimos" />
     <div class="article-grid-list">
-      {articles.filter((article) => article.id !== featured?.id).slice(0, 6).map((article) => <ArticleCard article={article} />)}
+      {latest.map((article) => <ArticleCard article={article} />)}
     </div>
 
     {evergreen.length > 0 && <>

@@ -1,6 +1,6 @@
 # ONE SHOT
 
-Publicación editorial personal sobre fútbol, identidad Barça, táctica y construcción de equipos. La web pública se genera como HTML estático con Astro y Markdown; el Studio de publicación solo existe en localhost.
+Publicación editorial personal sobre fútbol, identidad Barça, táctica y construcción de equipos. La web pública se genera como HTML estático con Astro y Markdown. El Studio de publicación está disponible en localhost y en el despliegue privado de Vercel.
 
 ## PUBLICAR UN ARTÍCULO
 
@@ -47,6 +47,10 @@ npm run check
 npm run build
 npm run test
 ```
+
+## Archivo histórico
+
+Las 24 publicaciones verificadas de X y otros artículos ya preparados viven en la colección Astro. El manifest, el inventario y las imágenes originales se conservan como fuentes editoriales. Para importar otro lote sin duplicar ni sobrescribir silenciosamente, consulta [docs/ARCHIVE_IMPORT.md](docs/ARCHIVE_IMPORT.md); el modelo de campos y categorías está en [docs/CONTENT_MODEL.md](docs/CONTENT_MODEL.md).
 
 ## Publicar gratis en GitHub Pages
 

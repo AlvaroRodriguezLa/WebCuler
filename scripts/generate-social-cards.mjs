@@ -36,8 +36,11 @@ function wrap(value, max = 25) {
 }
 
 const files = (await fs.readdir(contentDir)).filter((file) => file.endsWith('.md'));
+const generatedSlugs = new Set();
 for (const file of files) {
   const data = frontmatter(await fs.readFile(path.join(contentDir, file), 'utf8'));
+  if (data.draft === 'true' || data.redirectTo) continue;
+  generatedSlugs.add(data.slug || file.replace(/\.md$/, ''));
   const titleLines = wrap(data.title || 'ONE SHOT');
   const title = titleLines.map((line, index) => `<text x="72" y="${174 + index * 78}" fill="#20201f" font-family="Arial,Helvetica,sans-serif" font-size="68" font-weight="700">${escapeXml(line)}</text>`).join('');
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
@@ -53,4 +56,10 @@ for (const file of files) {
     <text x="842" y="535" fill="#8c201d" font-family="Arial,Helvetica,sans-serif" font-size="18" letter-spacing="4">IMAGEN EDITORIAL</text>
   </svg>`;
   await sharp(Buffer.from(svg)).png().toFile(path.join(outputDir, `${data.slug}.png`));
+}
+
+for (const file of await fs.readdir(outputDir)) {
+  if (file.endsWith('.png') && !generatedSlugs.has(file.replace(/\.png$/, ''))) {
+    await fs.rm(path.join(outputDir, file));
+  }
 }

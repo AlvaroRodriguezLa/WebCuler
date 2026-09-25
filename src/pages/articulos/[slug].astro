@@ -5,7 +5,7 @@ import { categoryPath, readingTime, sitePath } from '../../lib/content';
 import { categoryLabel } from '../../config/site';
 
 export async function getStaticPaths() {
-  const articles = await getCollection('articles', ({ data }) => !data.draft);
+  const articles = await getCollection('articles', ({ data }) => !data.draft || Boolean(data.redirectTo));
   return articles.map((article) => ({ params: { slug: article.data.slug }, props: { article } }));
 }
 
@@ -16,9 +16,16 @@ const description = data.excerpt || `Análisis de ${data.title} en ${categoryLab
 const imageSrc = sitePath(data.image);
 const articleUrl = `${import.meta.env.BASE_URL}articulos/${data.slug}/`;
 const socialImage = `${import.meta.env.BASE_URL}social/${data.slug}.png`;
+const redirectUrl = data.redirectTo ? new URL(sitePath(`/articulos/${data.redirectTo}/`), Astro.url).toString() : undefined;
 ---
-<BaseLayout title={data.title} description={description} canonical={new URL(articleUrl, Astro.site || 'https://example.github.io').toString()} socialImage={socialImage}>
-  <article class="article-page">
+<BaseLayout title={data.title} description={description} canonical={redirectUrl || new URL(articleUrl, Astro.site || 'https://example.github.io').toString()} socialImage={data.redirectTo ? undefined : socialImage}>
+  {redirectUrl && <meta slot="head" http-equiv="refresh" content={`0;url=${redirectUrl}`} />}
+  {redirectUrl ? <section class="wrapper page-intro archive-redirect">
+    <p class="eyebrow">Artículo trasladado</p>
+    <h1>{data.title}</h1>
+    <p>Esta pieza tiene ahora una URL canónica. En un instante llegarás al artículo.</p>
+    <p><a class="text-button" href={redirectUrl}>Continuar al artículo ↗</a></p>
+  </section> : <article class="article-page">
     <div class="article-grid">
       <header class="article-title">
         <p class="eyebrow"><a href={categoryPath(data.category)}>{categoryLabel(data.category)}</a>{data.season && ` / ${data.season}`}</p>
@@ -46,9 +53,20 @@ const socialImage = `${import.meta.env.BASE_URL}social/${data.slug}.png`;
       <div class="article-body">
         {data.excerpt && <p class="article-lede"><strong>{data.excerpt}</strong></p>}
         <Content />
+        {data.legacyVisuals.length > 0 && <section class="legacy-publications" aria-labelledby="legacy-title">
+          <p class="eyebrow" id="legacy-title">Publicación original</p>
+          <div class="legacy-publication-list">
+            {data.legacyVisuals.map((visual) => {
+              const isImage = /\.(?:avif|jpe?g|png|webp)$/i.test(visual);
+              return <a href={sitePath(visual)} target="_blank" rel="noreferrer" aria-label={isImage ? 'Abrir publicación visual original' : 'Abrir documento original'}>
+                {isImage ? <img src={sitePath(visual)} alt={`Publicación visual original: ${data.title}`} loading="lazy" /> : <span>Ver documento original ↗</span>}
+              </a>;
+            })}
+          </div>
+        </section>}
       </div>
     </div>
-  </article>
+  </article>}
 </BaseLayout>
 
 <script>

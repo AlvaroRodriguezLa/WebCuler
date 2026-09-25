@@ -22,6 +22,13 @@ const articles = defineCollection({
     archive: z.string().optional(),
     imageFit: z.enum(['contain', 'cover']).default('contain'),
     imagePosition: z.string().default('center'),
+    canonical: z.boolean().default(false),
+    publishedBase: z.boolean().default(false),
+    sourceTweetIds: z.array(z.string()).default([]),
+    sourceTweetUrls: z.array(z.string().url()).default([]),
+    legacyVisuals: z.array(z.string()).default([]),
+    migrationStatus: z.string().optional(),
+    redirectTo: z.string().optional(),
   }),
 });
 
