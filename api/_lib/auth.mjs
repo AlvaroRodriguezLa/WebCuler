@@ -3,10 +3,6 @@ import crypto from 'node:crypto';
 const COOKIE = 'one_shot_session';
 const STATE_COOKIE = 'one_shot_oauth_state';
 
-function base64url(value) {
-  return Buffer.from(value).toString('base64url');
-}
-
 function secretKey() {
   const secret = process.env.STUDIO_SESSION_SECRET;
   if (!secret) throw new Error('Falta configurar STUDIO_SESSION_SECRET en Vercel.');
@@ -36,7 +32,10 @@ function decrypt(value) {
 export function parseCookies(req) {
   return Object.fromEntries(String(req.headers.cookie || '').split(';').map((part) => {
     const index = part.indexOf('=');
-    return index < 0 ? [part.trim(), ''] : [part.slice(0, index).trim(), decodeURIComponent(part.slice(index + 1).trim())];
+    if (index < 0) return [part.trim(), ''];
+    const value = part.slice(index + 1).trim();
+    try { return [part.slice(0, index).trim(), decodeURIComponent(value)]; }
+    catch { return [part.slice(0, index).trim(), '']; }
   }).filter(([key]) => key));
 }
 
@@ -71,13 +70,76 @@ export function currentSession(req) {
   return value ? decrypt(value) : null;
 }
 
-export function setSession(res, user) {
-  const value = encrypt({ id: user.id, login: user.login, exp: Date.now() + 1000 * 60 * 60 * 24 * 14 });
+export function clearSession(res) {
+  res.setHeader('Set-Cookie', cookieHeader(COOKIE, '', { maxAge: 0 }));
+}
+
+export function clearStateCookie(res) {
+  res.setHeader('Set-Cookie', cookieHeader(STATE_COOKIE, '', { maxAge: 0 }));
+}
+
+export function clearAuthCookies(res) {
+  res.setHeader('Set-Cookie', [
+    cookieHeader(COOKIE, '', { maxAge: 0 }),
+    cookieHeader(STATE_COOKIE, '', { maxAge: 0 }),
+  ]);
+}
+
+export function setAuthCookies(res, payload) {
+  const value = encrypt({ ...payload, exp: Date.now() + 1000 * 60 * 60 * 24 * 14 });
+  res.setHeader('Set-Cookie', [
+    cookieHeader(COOKIE, encodeURIComponent(value), { maxAge: 60 * 60 * 24 * 14 }),
+    cookieHeader(STATE_COOKIE, '', { maxAge: 0 }),
+  ]);
+}
+
+export function rotateSession(res, session) {
+  const value = encrypt({ ...session, exp: Date.now() + 1000 * 60 * 60 * 24 * 14 });
   res.setHeader('Set-Cookie', cookieHeader(COOKIE, encodeURIComponent(value), { maxAge: 60 * 60 * 24 * 14 }));
 }
 
-export function clearSession(res) {
-  res.setHeader('Set-Cookie', cookieHeader(COOKIE, '', { maxAge: 0 }));
+export function assertSameOrigin(req) {
+  if ((req.headers.origin && req.headers.origin !== publicOrigin(req)) || (!req.headers.origin && !['GET', 'HEAD'].includes(req.method))) {
+    const error = new Error('Origen de la petición no permitido. Recarga el Studio e inténtalo de nuevo.');
+    error.status = 403;
+    throw error;
+  }
+}
+
+export async function authorizedSession(req, res) {
+  requireConfig();
+  assertSameOrigin(req);
+  const session = currentSession(req);
+  if (!session || String(session.id) !== String(process.env.STUDIO_ALLOWED_USER_ID)) {
+    const error = new Error('Tu sesión ha caducado. Vuelve a entrar con GitHub.');
+    error.status = 401;
+    throw error;
+  }
+  if (session.tokenExpiresAt && session.tokenExpiresAt < Date.now() + 60_000) {
+    if (!session.refreshToken || (session.refreshTokenExpiresAt && session.refreshTokenExpiresAt < Date.now())) {
+      clearSession(res);
+      const error = new Error('La autorización de GitHub ha caducado. Cierra sesión y vuelve a entrar.');
+      error.status = 401;
+      throw error;
+    }
+    const response = await fetch('https://github.com/login/oauth/access_token', {
+      method: 'POST', headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+      body: JSON.stringify({ client_id: process.env.GITHUB_APP_CLIENT_ID, client_secret: process.env.GITHUB_APP_CLIENT_SECRET, grant_type: 'refresh_token', refresh_token: session.refreshToken }),
+    });
+    const renewed = await response.json();
+    if (!response.ok || !renewed.access_token) {
+      clearSession(res);
+      const error = new Error('No se ha podido renovar el acceso a GitHub. Inicia sesión de nuevo.');
+      error.status = 401;
+      throw error;
+    }
+    session.accessToken = renewed.access_token;
+    session.refreshToken = renewed.refresh_token || session.refreshToken;
+    session.tokenExpiresAt = Date.now() + Number(renewed.expires_in || 28800) * 1000;
+    session.refreshTokenExpiresAt = Date.now() + Number(renewed.refresh_token_expires_in || 15897600) * 1000;
+    rotateSession(res, session);
+  }
+  return session;
 }
 
 export function redirect(res, location) {
@@ -93,4 +155,4 @@ export function json(res, status, payload) {
   res.end(JSON.stringify(payload));
 }
 
-export { COOKIE, STATE_COOKIE, base64url };
+export { COOKIE, STATE_COOKIE };

@@ -1,7 +1,10 @@
-import { currentSession, json } from '../_lib/auth.mjs';
+import { authorizedSession, json } from '../_lib/auth.mjs';
 
-export default function handler(req, res) {
-  const session = currentSession(req);
-  if (!session) return json(res, 401, { ok: false });
-  return json(res, 200, { ok: true, user: { id: session.id, login: session.login } });
+export default async function handler(req, res) {
+  try {
+    const session = await authorizedSession(req, res);
+    return json(res, 200, { ok: true, user: { id: session.id, login: session.login } });
+  } catch (error) {
+    return json(res, error.status || 500, { ok: false, error: error.message });
+  }
 }
