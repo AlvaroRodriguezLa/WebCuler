@@ -25,6 +25,9 @@ sourceTweetUrls:
   - https://x.com/ScarFace2824/status/2067699687574925517
 legacyVisuals:
   - /images/articles/red-flag/legacy-1.jpg
+supportingImages:
+  - src: /images/articles/red-flag/red-flag.webp
+    alt: Gráfico original Red Flag sobre Bradley Barcola
 canonical: true
 publishedBase: true
 migrationStatus: verified-from-attached-publication

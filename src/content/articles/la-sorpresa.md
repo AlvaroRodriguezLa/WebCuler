@@ -24,6 +24,9 @@ sourceTweetUrls:
   - https://x.com/ScarFace2824/status/2072420274947981768
 legacyVisuals:
   - /images/articles/la-sorpresa/legacy-1.png
+supportingImages:
+  - src: /images/articles/la-sorpresa/lennart-karl.webp
+    alt: Gráfico editorial original dedicado a Lennart Karl
 canonical: true
 publishedBase: true
 migrationStatus: verified-from-attached-publication

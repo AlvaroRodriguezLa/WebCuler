@@ -13,7 +13,9 @@ const { article } = Astro.props;
 const { Content } = await render(article);
 const { data } = article;
 const description = data.excerpt || `Análisis de ${data.title} en ${categoryLabel(data.category)}.`;
-const imageSrc = sitePath(data.image);
+const imageIsLegacy = data.legacyVisuals.includes(data.image);
+const imageSrc = sitePath(imageIsLegacy ? '/images/editorial-placeholder.svg' : data.image);
+const imageAlt = imageIsLegacy ? `Imagen editorial pendiente para ${data.title}` : data.imageAlt;
 const articleUrl = `${import.meta.env.BASE_URL}articulos/${data.slug}/`;
 const socialImage = `${import.meta.env.BASE_URL}social/${data.slug}.png`;
 const redirectUrl = data.redirectTo ? new URL(sitePath(`/articulos/${data.redirectTo}/`), Astro.url).toString() : undefined;
@@ -34,7 +36,7 @@ const redirectUrl = data.redirectTo ? new URL(sitePath(`/articulos/${data.redire
       </header>
       <aside class="article-aside">
         <figure>
-          <img src={imageSrc} alt={data.imageAlt} style={`object-fit:${data.imageFit};object-position:${data.imagePosition}`} />
+          <img src={imageSrc} alt={imageAlt} style={`object-fit:${data.imageFit};object-position:${data.imagePosition}`} />
           <figcaption>
             <div class="metadata">
               <div><div class="meta-label">Publicado</div><div class="meta-value"><time datetime={data.date.toISOString()}>{data.date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' })}</time></div></div>
@@ -53,17 +55,9 @@ const redirectUrl = data.redirectTo ? new URL(sitePath(`/articulos/${data.redire
       <div class="article-body">
         {data.excerpt && <p class="article-lede"><strong>{data.excerpt}</strong></p>}
         <Content />
-        {data.legacyVisuals.length > 0 && <section class="legacy-publications" aria-labelledby="legacy-title">
-          <p class="eyebrow" id="legacy-title">Publicación original</p>
-          <div class="legacy-publication-list">
-            {data.legacyVisuals.map((visual) => {
-              const isImage = /\.(?:avif|jpe?g|png|webp)$/i.test(visual);
-              return <a href={sitePath(visual)} target="_blank" rel="noreferrer" aria-label={isImage ? 'Abrir publicación visual original' : 'Abrir documento original'}>
-                {isImage ? <img src={sitePath(visual)} alt={`Publicación visual original: ${data.title}`} loading="lazy" /> : <span>Ver documento original ↗</span>}
-              </a>;
-            })}
-          </div>
-        </section>}
+        {data.supportingImages.length > 0 && <div class="article-supporting-images">
+          {data.supportingImages.map((image) => <figure><img src={sitePath(image.src)} alt={image.alt} loading="lazy" /></figure>)}
+        </div>}
       </div>
     </div>
   </article>}

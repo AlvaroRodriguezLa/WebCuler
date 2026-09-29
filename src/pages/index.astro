@@ -10,7 +10,8 @@ const featured = articles.find((article) => article.data.featured) || articles.f
 const evergreen = articles.filter((article) => article.data.evergreen && article.id !== featured?.id).slice(0, 6);
 const latest = articles.filter((article) => !article.data.archive && article.id !== featured?.id).slice(0, 6);
 const market = articles.filter((article) => article.data.archive === 'mercado-2026-27').slice(0, 4);
-const featuredImage = featured && sitePath(featured.data.image);
+const featuredImage = featured && sitePath(featured.data.legacyVisuals.includes(featured.data.image) ? '/images/editorial-placeholder.svg' : featured.data.image);
+const featuredImageAlt = featured?.data.legacyVisuals.includes(featured.data.image) ? `Imagen editorial pendiente para ${featured.data.title}` : featured?.data.imageAlt;
 ---
 <BaseLayout title={siteConfig.name} description={siteConfig.description}>
   <div class="wrapper home-intro">
@@ -26,7 +27,7 @@ const featuredImage = featured && sitePath(featured.data.image);
       <p class="lede">{featured.data.excerpt}</p>
     </div>
     <a class="feature-image" href={articlePath(featured.data.slug)} aria-label={`Leer ${featured.data.title}`}>
-      <img src={featuredImage} alt={featured.data.imageAlt} style={`object-fit:${featured.data.imageFit};object-position:${featured.data.imagePosition}`} />
+      <img src={featuredImage} alt={featuredImageAlt} style={`object-fit:${featured.data.imageFit};object-position:${featured.data.imagePosition}`} />
     </a>
   </section>}
 

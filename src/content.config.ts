@@ -27,6 +27,7 @@ const articles = defineCollection({
     sourceTweetIds: z.array(z.string()).default([]),
     sourceTweetUrls: z.array(z.string().url()).default([]),
     legacyVisuals: z.array(z.string()).default([]),
+    supportingImages: z.array(z.object({ src: z.string(), alt: z.string() })).default([]),
     migrationStatus: z.string().optional(),
     redirectTo: z.string().optional(),
   }),

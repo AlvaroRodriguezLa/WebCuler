@@ -24,6 +24,9 @@ sourceTweetIds:
 sourceTweetUrls: []
 legacyVisuals:
   - /images/articles/cerrar-el-mercado/legacy-1.jpg
+supportingImages:
+  - src: /images/articles/cerrar-el-mercado/cerrar-mercado.webp
+    alt: Gráfico original con alternativas tras la negativa del Atlético
 canonical: false
 publishedBase: false
 migrationStatus: canonical-existing

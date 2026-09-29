@@ -3,8 +3,8 @@ title: Tomar Riesgos
 slug: tomar-riesgos
 date: 2026-07-26
 excerpt: "Hasta hace poco tenía claro que Julián debía ser el 9 a fichar. Pero hoy ya no estoy tan seguro. Kroupi comparte muchas de las virtudes que más valoro en Julián: autosuficiencia, capacidad para armar el disparo en muy…"
-image: /images/articles/tomar-riesgos/legacy-1.png
-imageAlt: Tomar Riesgos
+image: /images/articles/tomar-riesgos/julian-kroupi-original.webp
+imageAlt: Julián Álvarez y Eli Junior Kroupi en el campo
 category: Construcción de plantilla
 tags:
   - Julián Álvarez

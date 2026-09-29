@@ -14,6 +14,9 @@ draft: false
 archive: mercado-2026-27
 imageFit: contain
 imagePosition: center
+supportingImages:
+  - src: /images/articles/one-shot-opciones-para-el-9/mercado-del-9.webp
+    alt: Gráfico original con opciones para el puesto de delantero centro
 ---
 
 Hasta hace poco tenía bastante claro que Julián debía ser el 9 a fichar, pero ahora ya no lo veo tan evidente. Sigue siendo la opción más segura: nivel inmediato, movilidad, autosuficiencia, asociación y una presión que encaja perfectamente con el fútbol de Flick. El problema es que pagar alrededor de 130 millones por él condiciona mucho el resto de la planificación.

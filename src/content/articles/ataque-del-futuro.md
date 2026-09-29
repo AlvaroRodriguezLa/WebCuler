@@ -3,8 +3,8 @@ title: Ataque del Futuro
 slug: ataque-del-futuro
 date: 2026-06-18
 excerpt: Si Raphinha sale al Al-Hilal, su dinero ya está prácticamente reinvertido en Anthony Gordon, que te da un perfil muy parecido en cuanto a intensidad, presión, ruptura, ida y vuelta y amenaza al espacio. Por eso, el…
-image: /images/articles/ataque-del-futuro/legacy-1.jpg
-imageAlt: Ataque del Futuro
+image: /images/articles/ataque-del-futuro/yan-diomande.webp
+imageAlt: Yan Diomande durante un partido
 category: Táctica
 tags:
   - Diomande

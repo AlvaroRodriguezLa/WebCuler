@@ -6,11 +6,12 @@ import { categoryLabel } from '../config/site';
 interface Props { article: CollectionEntry<'articles'>; compact?: boolean; }
 const { article, compact = false } = Astro.props;
 const { data } = article;
-const imageSrc = sitePath(data.image);
+const imageSrc = sitePath(data.legacyVisuals.includes(data.image) ? '/images/editorial-placeholder.svg' : data.image);
+const imageAlt = data.legacyVisuals.includes(data.image) ? `Imagen editorial pendiente para ${data.title}` : data.imageAlt;
 ---
 <article class:list={['article-card', { compact }]}>
   <a class="card-image" href={articlePath(data.slug)} aria-label={`Leer ${data.title}`}>
-    <img src={imageSrc} alt={data.imageAlt} loading="lazy" style={`object-fit:${data.imageFit};object-position:${data.imagePosition}`} />
+    <img src={imageSrc} alt={imageAlt} loading="lazy" style={`object-fit:${data.imageFit};object-position:${data.imagePosition}`} />
   </a>
   <div class="card-copy">
     <p class="eyebrow"><a href={categoryPath(data.category)}>{categoryLabel(data.category)}</a>{data.season && ` / ${data.season}`}</p>
