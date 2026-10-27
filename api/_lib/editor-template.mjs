@@ -16,6 +16,18 @@ export const editorHtml = `
       <input type="hidden" name="slug" />
       <label>Título <input id="title" name="title" required maxlength="180" placeholder="El perfil que necesita el Barça" autocomplete="off" /></label>
       <label>Texto del artículo <textarea id="text" name="text" required maxlength="100000" placeholder="Escribe en Markdown. Se guardará con párrafos, subtítulos, listas y citas."></textarea></label>
+      <div class="editorial-insert-tools"><span>Markdown enriquecido</span><button type="button" id="open-block-editor">Insertar bloque</button><button type="button" id="load-editorial-demo">Cargar artículo de demostración</button><label class="markdown-import">Importar .md<input type="file" id="markdown-import" accept=".md,text/markdown" /></label></div>
+      <p class="editorial-insert-hint">Los bloques se guardan dentro del Markdown y aparecen en ese mismo punto del artículo.</p>
+      <section class="player-asset-manager" aria-labelledby="player-photos-title">
+        <label class="player-photos-toggle"><input id="show-player-photos" name="showPlayerPhotos" value="true" type="checkbox" /> <span id="player-photos-title">Mostrar fotografías de jugadores</span></label>
+        <div id="player-photos-panel" hidden>
+          <p>Se analizan los bloques tácticos con <code>playerAppearance: "portrait"</code>. Cada fotografía se guarda una vez en la biblioteca y se puede reutilizar.</p>
+          <label>Procedencia de las fotografías subidas <input id="player-photo-source" maxlength="240" placeholder="Ej.: archivo personal con permiso del autor" /></label>
+          <label class="player-photo-consent"><input id="player-photo-consent" type="checkbox" /> Confirmo que tengo permiso para publicar estas fotografías en ONE SHOT.</label>
+          <p id="player-photos-status" class="player-assets-status" role="status" aria-live="polite"></p>
+          <div id="player-assets-list" class="player-assets-list"></div>
+        </div>
+      </section>
       <div class="toolbar" aria-label="Formato Markdown">
         <button type="button" data-wrap="**" aria-label="Negrita">Negrita</button>
         <button type="button" data-wrap="*" aria-label="Cursiva">Cursiva</button>
@@ -46,10 +58,30 @@ export const editorHtml = `
       <div class="actions"><button class="secondary" type="button" id="save-draft">GUARDAR BORRADOR</button><button class="primary" type="button" id="publish">PUBLICAR ARTÍCULO</button></div>
       <p class="status" id="status" role="status" aria-live="polite"></p>
     </form>
+    <dialog id="article-block-dialog" class="article-block-dialog" aria-labelledby="block-dialog-title">
+      <div class="block-dialog-head"><div><p class="eyebrow">ONE SHOT / componentes</p><h2 id="block-dialog-title">Insertar bloque editorial</h2></div><button type="button" id="close-block-dialog" aria-label="Cerrar">×</button></div>
+      <label>Tipo de bloque<select id="article-block-type"><option value="tactical-board">Campo táctico</option><option value="tactical-comparison">Comparativa táctica</option><option value="stat-cards">Tarjetas estadísticas</option><option value="editorial-callout">Tesis destacada</option><option value="chart-block">Gráfico</option><option value="source-note">Fuente o nota</option></select></label>
+      <div id="article-block-form"></div><p id="article-block-error" class="block-form-error" role="alert" hidden></p><div id="article-block-preview" class="block-form-preview"></div>
+      <div class="block-dialog-actions"><button type="button" id="cancel-block-editor">Cancelar</button><button type="button" id="insert-article-block">Insertar en el texto</button></div>
+    </dialog>
   </section>
   <section class="preview-panel">
     <div class="preview-toolbar"><span>Vista previa</span><div><button class="device active" data-device="desktop">Escritorio</button><button class="device" data-device="mobile">Móvil</button></div></div>
+    <p id="preview-runtime-error" class="block-config-error preview-runtime-error" role="alert" hidden></p>
     <div class="preview-wrap desktop" id="preview-wrap"><article class="preview-page" id="preview"></article></div>
   </section>
 </main>
+<script>
+  (() => {
+    const showError = (detail) => {
+      const box = document.querySelector('#preview-runtime-error');
+      if (!box) return;
+      box.hidden = false;
+      box.textContent = 'La preview no pudo iniciarse. ' + String(detail || 'Recarga el Studio; si persiste, comparte este mensaje con soporte.').slice(0, 240);
+    };
+    window.addEventListener('error', (event) => { if (event.message || event.target?.tagName === 'SCRIPT') showError(event.message || event.target?.src || 'No se pudo cargar el editor.'); }, true);
+    window.addEventListener('unhandledrejection', (event) => showError(event.reason?.message || event.reason), true);
+    window.setTimeout(() => { if (document.documentElement.dataset.studioClientReady !== 'true') showError('El editor no terminó de cargar en 8 segundos.'); }, 8000);
+  })();
+</script>
 `;

@@ -3,8 +3,8 @@ title: El sueño de Musiala
 slug: el-sueno-de-musiala
 date: 2026-06-18
 excerpt: El gran sueño a medio plazo debe ser Jamal Musiala. No como una operación inmediata, porque ahora es prácticamente imposible, sino como el fichaje que el Barça debe empezar a preparar para 2028 o 2029, cuando se acerque…
-image: /images/articles/el-sueno-de-musiala/legacy-1.jpg
-imageAlt: El sueño de Musiala
+image: /images/articles/el-sueno-de-musiala/jamal-musiala.jpg
+imageAlt: Jamal Musiala jugando con el Bayern de Múnich
 category: Planificación
 tags:
   - Musiala

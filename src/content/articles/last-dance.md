@@ -3,8 +3,8 @@ title: Last Dance
 slug: last-dance
 date: 2026-06-18
 excerpt: Lo de Leo Messi no va de construir una plantilla alrededor de un jugador de 39 años ni de pensar que todavía puede sostener una temporada entera al máximo nivel. Va de algo mucho más grande que eso. El fútbol también es…
-image: /images/articles/last-dance/legacy-1.jpg
-imageAlt: Last Dance
+image: /images/articles/last-dance/leo-messi-last-dance.jpg
+imageAlt: Lionel Messi con la Champions League durante su etapa en el Barça
 category: Identidad
 tags:
   - Leo Messi

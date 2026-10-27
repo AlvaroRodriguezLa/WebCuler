@@ -3,8 +3,8 @@ title: Lateral Derecho
 slug: lateral-derecho
 date: 2026-06-18
 excerpt: La otra gran carpeta es el lateral derecho. El riesgo de quedarse con Eric García como titular fijo no es que Eric no pueda cumplir, porque puede hacerlo. El problema es que al convertirlo en lateral derecho titular…
-image: /images/articles/lateral-derecho/legacy-1.jpg
-imageAlt: Lateral Derecho
+image: /images/articles/lateral-derecho/konrad-laimer.jpg
+imageAlt: Konrad Laimer jugando con el Bayern de Múnich
 category: Perfiles
 tags:
   - Laimer

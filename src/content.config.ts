@@ -18,6 +18,7 @@ const articles = defineCollection({
     featured: z.boolean().default(false),
     evergreen: z.boolean().default(false),
     draft: z.boolean().default(false),
+    showPlayerPhotos: z.boolean().default(false),
     readingTime: z.number().optional(),
     archive: z.string().optional(),
     imageFit: z.enum(['contain', 'cover']).default('contain'),

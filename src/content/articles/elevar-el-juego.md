@@ -3,8 +3,8 @@ title: Elevar el Juego
 slug: elevar-el-juego
 date: 2026-06-18
 excerpt: "Bastoni sigue siendo, para mí, la idea más pura si quieres elevar el juego del Barça. Es el central que más te cambia la salida, la circulación y la forma de atacar desde atrás. No es solo un defensa: es un generador de…"
-image: /images/articles/elevar-el-juego/legacy-1.jpg
-imageAlt: Elevar el Juego
+image: /images/articles/elevar-el-juego/alessandro-bastoni.png
+imageAlt: Alessandro Bastoni aplaudiendo con la camiseta del Inter
 category: Perfiles
 tags:
   - Bastoni

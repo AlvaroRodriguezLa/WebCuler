@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>ONE SHOT / Studio local</title>
     <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="/article-blocks.css" />
     <style>
       .preview-copy { max-width: 50rem; text-align: justify; text-justify: inter-word; }
     </style>
@@ -13,12 +14,20 @@
     <header class="studio-header"><a id="site-link" href="http://127.0.0.1:4321/" target="_blank">ONE SHOT</a><span>Studio local / red privada</span></header>
     <main class="studio-shell">
       <section class="editor-panel">
+        <div class="draft-bar"><label for="draft-list">Continuar un borrador<select id="draft-list"><option value="">Nuevo artículo</option></select></label></div>
         <p class="eyebrow">Publisher local</p>
         <h1>Publicar un artículo.</h1>
         <p class="intro">Escribe lo esencial, arrastra una imagen y revisa la pieza antes de guardarla o enviarla a Git.</p>
         <form id="article-form">
+          <input type="hidden" name="slug" /><input type="hidden" name="existingImage" />
           <label>Título <input id="title" name="title" required placeholder="Perfil Faltante" /></label>
           <label>Texto <textarea id="text" name="text" required placeholder="Pega aquí el artículo en Markdown..."></textarea></label>
+          <div class="editorial-insert-tools"><span>Markdown enriquecido</span><button type="button" id="open-block-editor">Insertar bloque</button><button type="button" id="load-editorial-demo">Cargar artículo de demostración</button><label class="markdown-import">Importar .md<input type="file" id="markdown-import" accept=".md,text/markdown" /></label></div>
+          <section class="player-asset-manager" aria-labelledby="player-photos-title">
+            <label class="player-photos-toggle"><input id="show-player-photos" name="showPlayerPhotos" value="true" type="checkbox" /> <span id="player-photos-title">Mostrar fotografías de jugadores</span></label>
+            <div id="player-photos-panel" hidden><p>Se analizan bloques tácticos en modo <code>portrait</code>. Las subidas permanentes se gestionan desde el Studio alojado en Vercel.</p><p id="player-photos-status" class="player-assets-status" role="status" aria-live="polite"></p><div id="player-assets-list" class="player-assets-list"></div></div>
+          </section>
+          <p class="editorial-insert-hint">Los bloques se guardan dentro del Markdown y aparecen en ese mismo punto del artículo.</p>
           <div class="toolbar" aria-label="Formato Markdown">
             <button type="button" data-wrap="**">Bold</button><button type="button" data-wrap="*">Italic</button><button type="button" data-prefix="## ">Heading</button><button type="button" data-prefix="> ">Quote</button><button type="button" data-link="true">Link</button>
           </div>
@@ -45,12 +54,32 @@
           <div class="actions"><button class="secondary" type="button" id="save-draft">GUARDAR BORRADOR</button><button class="primary" type="button" id="publish">PUBLICAR Y ENVIAR A GIT</button></div>
           <p class="status" id="status" role="status"></p>
         </form>
+        <dialog id="article-block-dialog" class="article-block-dialog" aria-labelledby="block-dialog-title">
+          <div class="block-dialog-head"><div><p class="eyebrow">ONE SHOT / componentes</p><h2 id="block-dialog-title">Insertar bloque editorial</h2></div><button type="button" id="close-block-dialog" aria-label="Cerrar">×</button></div>
+          <label>Tipo de bloque<select id="article-block-type"><option value="tactical-board">Campo táctico</option><option value="tactical-comparison">Comparativa táctica</option><option value="stat-cards">Tarjetas estadísticas</option><option value="editorial-callout">Tesis destacada</option><option value="chart-block">Gráfico</option><option value="source-note">Fuente o nota</option></select></label>
+          <div id="article-block-form"></div><p id="article-block-error" class="block-form-error" role="alert" hidden></p><div id="article-block-preview" class="block-form-preview"></div>
+          <div class="block-dialog-actions"><button type="button" id="cancel-block-editor">Cancelar</button><button type="button" id="insert-article-block">Insertar en el texto</button></div>
+        </dialog>
       </section>
       <section class="preview-panel">
         <div class="preview-toolbar"><span>Preview</span><div><button class="device active" data-device="desktop">Desktop</button><button class="device" data-device="mobile">Móvil</button></div></div>
+        <p id="preview-runtime-error" class="block-config-error preview-runtime-error" role="alert" hidden></p>
         <div class="preview-wrap desktop" id="preview-wrap"><article class="preview-page" id="preview"></article></div>
       </section>
     </main>
-    <script src="/client.js"></script>
+    <script>
+      (() => {
+        const showError = (detail) => {
+          const box = document.querySelector('#preview-runtime-error');
+          if (!box) return;
+          box.hidden = false;
+          box.textContent = `La preview no pudo iniciarse. ${String(detail || 'Recarga el Studio; si persiste, comparte este mensaje con soporte.').slice(0, 240)}`;
+        };
+        window.addEventListener('error', (event) => { if (event.message || event.target?.tagName === 'SCRIPT') showError(event.message || event.target?.src || 'No se pudo cargar el editor.'); }, true);
+        window.addEventListener('unhandledrejection', (event) => showError(event.reason?.message || event.reason), true);
+        window.setTimeout(() => { if (document.documentElement.dataset.studioClientReady !== 'true') showError('El editor no terminó de cargar en 8 segundos.'); }, 8000);
+      })();
+    </script>
+    <script type="module" src="/client.js"></script>
   </body>
 </html>
