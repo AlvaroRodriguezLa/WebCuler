@@ -3,8 +3,8 @@ title: Cerrar el Mercado
 slug: cerrar-el-mercado
 date: 2026-08-18
 excerpt: Tras la negativa del Atlético a vender a Julián, yo no entraría en una guerra interminable ni gastaría todo ese dinero en forzar una operación. Aprovecharía precisamente ese margen para repartir el riesgo, ganar…
-image: /images/articles/cerrar-el-mercado/legacy-1.jpg
-imageAlt: Cerrar el Mercado
+image: /images/articles/cerrar-el-mercado/cerrar-mercado.webp
+imageAlt: Gráfico editorial con alternativas tras la negativa del Atlético a vender a Julián
 category: Construcción de plantilla
 tags:
   - Woltemade

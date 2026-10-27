@@ -11,6 +11,20 @@ assert.match(home, /Artículo destacado/);
 assert.match(article, /getStaticPaths/);
 assert.match(collection, /draft: z\.boolean/);
 const coverMappings = [
+  ['ataque-del-futuro', '/images/articles/ataque-del-futuro/yan-diomande.jpg'],
+  ['el-central-de-flick', '/images/articles/el-central-de-flick/micky-van-de-ven.jpg'],
+  ['el-sueno-de-musiala', '/images/articles/el-sueno-de-musiala/jamal-musiala.jpg'],
+  ['elevar-el-juego', '/images/articles/elevar-el-juego/alessandro-bastoni.png'],
+  ['last-dance', '/images/articles/last-dance/leo-messi-last-dance.jpg'],
+  ['lateral-derecho', '/images/articles/lateral-derecho/konrad-laimer.jpg'],
+  ['oxigeno-pedri', '/images/articles/oxigeno-pedri/kees-smit.jpg'],
+  ['fichajes-2026-2027', '/images/articles/fichajes-2026-2027/mercado-2026-27.webp'],
+  ['cerrar-el-mercado', '/images/articles/cerrar-el-mercado/cerrar-mercado.webp'],
+  ['cerrar-el-mercado-repartir-el-riesgo', '/images/articles/cerrar-el-mercado/cerrar-mercado.webp'],
+  ['cerrar-mercado', '/images/articles/cerrar-mercado-kroupi-asllani-lukeba/mercado.webp'],
+  ['la-sorpresa', '/images/articles/la-sorpresa/lennart-karl.webp'],
+  ['one-shot', '/images/articles/one-shot/opciones-del-barca-2026-27.webp'],
+  ['red-flag', '/images/articles/red-flag/red-flag.webp'],
   ['el-tapado', '/images/articles/el-tapado/andreas-schjelderup.webp'],
   ['el-tapado-andreas-schjelderup', '/images/articles/el-tapado/andreas-schjelderup.webp'],
   ['perfil-faltante', '/images/articles/perfil-faltante/fisnik-asllani.webp'],
