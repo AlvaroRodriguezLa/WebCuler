@@ -3,8 +3,8 @@ title: "Segundo Portero"
 slug: segundo-portero-alex-remiro
 date: "2026-09-16"
 excerpt: "Hay fichajes que se celebran por el nombre y otros que se entienden por la necesidad. Remiro pertenecería al segundo grupo."
-image: /images/editorial-placeholder.svg
-imageAlt: "Placeholder editorial para Segundo Portero"
+image: /images/articles/segundo-portero/alex-remiro.webp
+imageAlt: "Álex Remiro con la camiseta del Barça"
 category: "Perfiles de jugador"
 tags: [Álex Remiro, portería, plantilla]
 subject: "Álex Remiro"

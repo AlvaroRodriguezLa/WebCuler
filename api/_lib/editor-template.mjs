@@ -1,12 +1,18 @@
 export const editorHtml = `
 <header class="studio-top">
-  <a href="/" target="_blank" rel="noreferrer">ONE SHOT</a>
+  <a id="site-link" href="/" target="_blank" rel="noreferrer">ONE SHOT</a>
   <span>Studio / privado</span>
   <button id="logout" type="button">Cerrar sesión</button>
 </header>
 <div class="draft-bar"><label for="draft-list">Continuar un borrador
   <select id="draft-list"><option value="">Nuevo artículo</option></select>
 </label></div>
+<div class="published-bar">
+  <label for="published-list">Editar un artículo publicado
+    <select id="published-list"><option value="">Selecciona un artículo publicado</option></select>
+  </label>
+  <p>Al guardar se actualizará el artículo en la web. También puedes cambiar su imagen, texto y destacado, o eliminarlo.</p>
+</div>
 <main class="studio-shell">
   <section class="editor-panel">
     <p class="eyebrow">Editor editorial</p>
@@ -14,6 +20,7 @@ export const editorHtml = `
     <p class="intro">Escribe desde el móvil o el ordenador. Guarda un borrador en GitHub o publícalo directamente.</p>
     <form id="article-form">
       <input type="hidden" name="slug" />
+      <input type="hidden" name="existingImage" />
       <label>Título <input id="title" name="title" required maxlength="180" placeholder="El perfil que necesita el Barça" autocomplete="off" /></label>
       <label>Texto del artículo <textarea id="text" name="text" required maxlength="100000" placeholder="Escribe en Markdown. Se guardará con párrafos, subtítulos, listas y citas."></textarea></label>
       <div class="editorial-insert-tools"><span>Markdown enriquecido</span><button type="button" id="open-block-editor">Insertar bloque</button><button type="button" id="load-editorial-demo">Cargar artículo de demostración</button><label class="markdown-import">Importar .md<input type="file" id="markdown-import" accept=".md,text/markdown" /></label></div>
@@ -55,7 +62,7 @@ export const editorHtml = `
         <label class="check"><input name="featured" type="checkbox" /> Artículo destacado</label>
         <label class="check"><input name="evergreen" type="checkbox" /> Idea permanente</label>
       </div></details>
-      <div class="actions"><button class="secondary" type="button" id="save-draft">GUARDAR BORRADOR</button><button class="primary" type="button" id="publish">PUBLICAR ARTÍCULO</button></div>
+      <div class="actions"><button class="secondary" type="button" id="save-draft">GUARDAR BORRADOR</button><button class="primary" type="button" id="publish">PUBLICAR ARTÍCULO</button><button class="primary" type="button" id="save-published" hidden>GUARDAR CAMBIOS</button><button class="danger" type="button" id="delete-published" hidden>ELIMINAR ARTÍCULO</button></div>
       <p class="status" id="status" role="status" aria-live="polite"></p>
     </form>
     <dialog id="article-block-dialog" class="article-block-dialog" aria-labelledby="block-dialog-title">

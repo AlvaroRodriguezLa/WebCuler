@@ -1,5 +1,6 @@
 import { authorizedSession } from './auth.mjs';
 import { stripArticleBlocks, validateArticleBlocks } from '../../public/article-blocks.mjs';
+import { parse as parseYaml, stringify as stringifyYaml } from 'yaml';
 
 const API = 'https://api.github.com';
 const rootPath = 'src/content/articles';
@@ -9,59 +10,35 @@ function slugify(value) {
     .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 90) || 'articulo';
 }
 
-function yaml(value) { return JSON.stringify(value ?? ''); }
-
 function readingTime(text) {
   return Math.max(1, Math.ceil(stripArticleBlocks(text).split(/\s+/).filter(Boolean).length / 220));
 }
 
-function toMarkdown(article, image) {
-  const optional = (key, value) => value ? `${key}: ${yaml(value)}\n` : '';
-  const fields = [
-    `title: ${yaml(article.title)}`,
-    `slug: ${article.slug}`,
-    `date: ${yaml(article.date)}`,
-    `excerpt: ${yaml(article.excerpt)}`,
-    `image: ${image}`,
-    `imageAlt: ${yaml(article.imageAlt || `Imagen editorial para ${article.title}`)}`,
-    `category: ${yaml(article.category || 'Análisis')}`,
-    `tags: ${JSON.stringify(article.tags || [])}`,
-    optional('subtitle', article.subtitle),
-    optional('subject', article.subject),
-    optional('season', article.season),
-    `featured: ${Boolean(article.featured)}`,
-    `evergreen: ${Boolean(article.evergreen)}`,
-    `draft: ${Boolean(article.draft)}`,
-    `showPlayerPhotos: ${Boolean(article.showPlayerPhotos)}`,
-    `readingTime: ${readingTime(article.text)}`,
-    `imageFit: ${article.imageFit === 'cover' ? 'cover' : 'contain'}`,
-    `imagePosition: ${/^(center|top|bottom|left|right|center top|center bottom|left center|right center)$/.test(article.imagePosition) ? article.imagePosition : 'center'}`,
-    optional('archive', article.archive),
-  ].filter(Boolean);
-  return `---\n${fields.join('\n')}\n---\n\n${String(article.text || '').trim()}\n`;
-}
+function asBoolean(value) { return value === true || value === 'true' || value === 'on'; }
 
-function scalar(value) {
-  const input = String(value || '').trim();
-  if (input.startsWith('"')) {
-    try { return JSON.parse(input); } catch { return input.slice(1, -1); }
-  }
-  if (input === 'true') return true;
-  if (input === 'false') return false;
-  if (input.startsWith('[')) {
-    try { return JSON.parse(input); } catch { return []; }
-  }
-  return input;
+function toMarkdown(article, image) {
+  const metadata = { ...article };
+  delete metadata.text;
+  delete metadata.path;
+  metadata.image = image;
+  metadata.imageAlt = article.imageAlt || `Imagen editorial para ${article.title}`;
+  metadata.category = article.category || 'Análisis';
+  metadata.tags = Array.isArray(article.tags) ? article.tags : [];
+  metadata.featured = Boolean(article.featured);
+  metadata.evergreen = Boolean(article.evergreen);
+  metadata.draft = Boolean(article.draft);
+  metadata.showPlayerPhotos = article.showPlayerPhotos === true;
+  metadata.readingTime = readingTime(article.text);
+  metadata.imageFit = article.imageFit === 'cover' ? 'cover' : 'contain';
+  metadata.imagePosition = /^(center|top|bottom|left|right|center top|center bottom|left center|right center)$/.test(article.imagePosition) ? article.imagePosition : 'center';
+  return `---\n${stringifyYaml(metadata, { lineWidth: 0 }).trimEnd()}\n---\n\n${String(article.text || '').trim()}\n`;
 }
 
 function parseMarkdown(markdown) {
   const match = String(markdown).match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
   if (!match) throw new Error('El archivo Markdown no tiene frontmatter válido.');
-  const metadata = {};
-  for (const line of match[1].split(/\r?\n/)) {
-    const field = line.match(/^([A-Za-z][\w]*):\s*(.*)$/);
-    if (field) metadata[field[1]] = scalar(field[2]);
-  }
+  const metadata = parseYaml(match[1]) || {};
+  if (!metadata || typeof metadata !== 'object' || Array.isArray(metadata)) throw new Error('El frontmatter del artículo no es válido.');
   return { ...metadata, text: match[2].trim() };
 }
 
@@ -102,14 +79,46 @@ async function readArticle(token, config, filename) {
   return { ...article, path: filename.replace(/\.md$/, '') };
 }
 
-export async function listDrafts(req, res) {
-  const session = await authorizedSession(req, res);
-  const config = repoConfig();
+async function readRepositoryArticles(session, config) {
   const files = await github(session.accessToken, `${repoPrefix(config)}/contents/${rootPath}?ref=${encodeURIComponent(config.branch)}`);
   const markdownFiles = Array.isArray(files) ? files.filter((file) => file.type === 'file' && file.name.endsWith('.md')) : [];
-  const articles = await Promise.all(markdownFiles.map((file) => readArticle(session.accessToken, config, file.name).catch(() => null)));
+  return Promise.all(markdownFiles.map((file) => readArticle(session.accessToken, config, file.name).catch(() => null)));
+}
+
+export async function listDrafts(req, res) {
+  const session = await authorizedSession(req, res);
+  const articles = await readRepositoryArticles(session, repoConfig());
   return articles.filter((article) => article?.draft).map(({ text, ...article }) => article)
     .sort((a, b) => String(b.date).localeCompare(String(a.date)));
+}
+
+export async function listPublished(req, res) {
+  const session = await authorizedSession(req, res);
+  const articles = await readRepositoryArticles(session, repoConfig());
+  return articles.filter((article) => article && !article.draft).map(({ text, ...article }) => article)
+    .sort((a, b) => String(b.date).localeCompare(String(a.date)));
+}
+
+export async function listArticleIndex(req, res) {
+  const session = await authorizedSession(req, res);
+  const articles = await readRepositoryArticles(session, repoConfig());
+  const sorted = articles.filter(Boolean).sort((a, b) => String(b.date).localeCompare(String(a.date)));
+  return {
+    drafts: sorted.filter((article) => article.draft).map(({ text, ...article }) => article),
+    published: sorted.filter((article) => !article.draft).map(({ text, ...article }) => article),
+  };
+}
+
+export async function loadPublished(req, res, slug) {
+  const session = await authorizedSession(req, res);
+  const config = repoConfig();
+  const article = await readArticle(session.accessToken, config, `${slugify(slug)}.md`);
+  if (article.draft) {
+    const error = new Error('Este artículo todavía es un borrador.');
+    error.status = 404;
+    throw error;
+  }
+  return article;
 }
 
 export async function loadDraft(req, res, slug) {
@@ -134,7 +143,8 @@ export async function saveArticle(req, res, body) {
   if (!title || !text) throw new Error('Escribe un título y el texto del artículo.');
   if (title.length > 180 || text.length > 100_000) throw new Error('El título o el artículo supera el tamaño permitido.');
   validateArticleBlocks(text);
-  if (!['draft', 'publish'].includes(body.action)) throw new Error('Elige si quieres guardar un borrador o publicar el artículo.');
+  if (!['draft', 'publish', 'update'].includes(body.action)) throw new Error('Elige si quieres guardar un borrador, publicar o actualizar el artículo.');
+  if (body.action === 'update' && !body.slug) throw new Error('Selecciona un artículo publicado antes de guardar cambios.');
   let slug = slugify(body.slug || title);
   if (body.slug && slug !== body.slug) throw new Error('El identificador del artículo no es válido.');
   let image = String(body.existingImage || '');
@@ -152,8 +162,27 @@ export async function saveArticle(req, res, body) {
   const inputDate = String(body.date || '');
   const parsedDate = new Date(`${inputDate}T12:00:00Z`);
   const validDate = /^\d{4}-\d{2}-\d{2}$/.test(inputDate) && !Number.isNaN(parsedDate.getTime()) && parsedDate.toISOString().slice(0, 10) === inputDate;
+  let existingArticle = null;
+  if (body.slug) {
+    try {
+      existingArticle = await readArticle(session.accessToken, config, `${slug}.md`);
+      if (body.action === 'update' && existingArticle.draft) {
+        const error = new Error('Este artículo es un borrador; guárdalo desde el editor de borradores.');
+        error.status = 409;
+        throw error;
+      }
+      if (body.action !== 'update' && !existingArticle.draft) {
+        const error = new Error('Los artículos publicados se editan desde la lista de publicados.');
+        error.status = 409;
+        throw error;
+      }
+    } catch (error) {
+      if (error.status !== 404) throw error;
+      if (body.action === 'update') throw error;
+    }
+  }
   const article = {
-    ...body,
+    ...(existingArticle || {}),
     title,
     slug,
     text,
@@ -162,31 +191,23 @@ export async function saveArticle(req, res, body) {
     category: String(body.category || 'Análisis').slice(0, 100),
     imageAlt: String(body.imageAlt || '').slice(0, 240),
     tags: Array.isArray(body.tags) ? body.tags.map(String).slice(0, 20) : [],
-    featured: Boolean(body.featured),
-    evergreen: Boolean(body.evergreen),
-    draft: body.action === 'draft',
+    featured: asBoolean(body.featured),
+    evergreen: asBoolean(body.evergreen),
+    draft: body.action === 'draft' ? true : body.action === 'update' ? false : false,
     showPlayerPhotos: body.showPlayerPhotos === true,
+    subtitle: String(body.subtitle || '').trim() || undefined,
+    subject: String(body.subject || '').trim() || undefined,
+    season: String(body.season || '').trim() || undefined,
+    archive: String(body.archive || '').trim() || undefined,
+    imageFit: body.imageFit === 'cover' ? 'cover' : 'contain',
+    imagePosition: String(body.imagePosition || 'center'),
   };
   const articleFile = `${rootPath}/${slug}.md`;
   const articlePath = `/contents/${articleFile}`;
   const ref = await github(session.accessToken, `${repoPrefix(config)}/git/ref/heads/${encodeURIComponent(config.branch)}`);
   const parent = await github(session.accessToken, `${repoPrefix(config)}/git/commits/${ref.object.sha}`);
 
-  if (body.slug) {
-    try {
-      const existing = await github(session.accessToken, `${repoPrefix(config)}${articlePath}?ref=${encodeURIComponent(config.branch)}`);
-      if (existing?.content) {
-        const saved = parseMarkdown(Buffer.from(existing.content, 'base64').toString('utf8'));
-        if (!saved.draft) {
-          const error = new Error('Los artículos publicados no se editan desde el editor de borradores.');
-          error.status = 409;
-          throw error;
-        }
-      }
-    } catch (error) {
-      if (error.status !== 404) throw error;
-    }
-  } else {
+  if (!body.slug) {
     try {
       await github(session.accessToken, `${repoPrefix(config)}${articlePath}?ref=${encodeURIComponent(config.branch)}`);
       const error = new Error('Ya existe un artículo con ese identificador. Cambia el título o abre su borrador.');
@@ -198,6 +219,17 @@ export async function saveArticle(req, res, body) {
   }
 
   const blobs = [];
+  if (article.featured && !article.draft) {
+    const repositoryFiles = await github(session.accessToken, `${repoPrefix(config)}/contents/${rootPath}?ref=${encodeURIComponent(config.branch)}`);
+    const otherArticles = Array.isArray(repositoryFiles)
+      ? await Promise.all(repositoryFiles.filter((file) => file.type === 'file' && file.name.endsWith('.md') && file.name !== `${slug}.md`).map((file) => readArticle(session.accessToken, config, file.name).catch(() => null)))
+      : [];
+    for (const other of otherArticles.filter((entry) => entry && !entry.draft && entry.featured)) {
+      const unfeatured = { ...other, featured: false };
+      const savedBlob = await github(session.accessToken, `${repoPrefix(config)}/git/blobs`, { method: 'POST', body: JSON.stringify({ content: toMarkdown(unfeatured, other.image), encoding: 'utf-8' }) });
+      blobs.push({ path: `${rootPath}/${other.path}.md`, mode: '100644', type: 'blob', sha: savedBlob.sha });
+    }
+  }
   if (imageData) {
     const uploaded = await github(session.accessToken, `${repoPrefix(config)}/git/blobs`, { method: 'POST', body: JSON.stringify({ content: imageData, encoding: 'base64' }) });
     blobs.push({ path: `public${image}`, mode: '100644', type: 'blob', sha: uploaded.sha });
@@ -206,11 +238,35 @@ export async function saveArticle(req, res, body) {
   blobs.push({ path: articleFile, mode: '100644', type: 'blob', sha: markdownBlob.sha });
   const tree = await github(session.accessToken, `${repoPrefix(config)}/git/trees`, { method: 'POST', body: JSON.stringify({ base_tree: parent.tree.sha, tree: blobs }) });
   const commit = await github(session.accessToken, `${repoPrefix(config)}/git/commits`, {
-    method: 'POST', body: JSON.stringify({ message: `${article.draft ? 'Borrador' : 'Publicar'}: ${title}`, tree: tree.sha, parents: [ref.object.sha] }),
+    method: 'POST', body: JSON.stringify({ message: `${body.action === 'update' ? 'Editar' : article.draft ? 'Borrador' : 'Publicar'}: ${title}`, tree: tree.sha, parents: [ref.object.sha] }),
   });
   await github(session.accessToken, `${repoPrefix(config)}/git/refs/heads/${encodeURIComponent(config.branch)}`, {
     method: 'PATCH', body: JSON.stringify({ sha: commit.sha, force: false }),
   });
   const url = `${process.env.PUBLIC_SITE_URL || 'https://alvarorodriguezla.github.io'}/WebCuler/articulos/${slug}/`;
-  return { ok: true, draft: article.draft, slug, image, url, commit: commit.sha, message: article.draft ? 'Borrador guardado en GitHub.' : 'Artículo publicado. GitHub Pages empezará a actualizarse en unos instantes.' };
+  return { ok: true, draft: article.draft, slug, image, url, commit: commit.sha, message: article.draft ? 'Borrador guardado en GitHub.' : body.action === 'update' ? 'Cambios guardados. La web se actualizará en unos instantes.' : 'Artículo publicado. GitHub Pages empezará a actualizarse en unos instantes.' };
+}
+
+export async function deletePublished(req, res, slug) {
+  const session = await authorizedSession(req, res);
+  const config = repoConfig();
+  const safeSlug = slugify(slug);
+  const articlePath = `${rootPath}/${safeSlug}.md`;
+  const current = await github(session.accessToken, `${repoPrefix(config)}/contents/${articlePath}?ref=${encodeURIComponent(config.branch)}`);
+  const article = parseMarkdown(Buffer.from(current.content, 'base64').toString('utf8'));
+  if (article.draft) {
+    const error = new Error('Solo se pueden eliminar artículos publicados desde esta lista.');
+    error.status = 409;
+    throw error;
+  }
+  const ref = await github(session.accessToken, `${repoPrefix(config)}/git/ref/heads/${encodeURIComponent(config.branch)}`);
+  const parent = await github(session.accessToken, `${repoPrefix(config)}/git/commits/${ref.object.sha}`);
+  const tree = await github(session.accessToken, `${repoPrefix(config)}/git/trees`, {
+    method: 'POST', body: JSON.stringify({ base_tree: parent.tree.sha, tree: [{ path: articlePath, mode: '100644', type: 'blob', sha: null }] }),
+  });
+  const commit = await github(session.accessToken, `${repoPrefix(config)}/git/commits`, {
+    method: 'POST', body: JSON.stringify({ message: `Eliminar artículo publicado: ${article.title || safeSlug}`, tree: tree.sha, parents: [ref.object.sha] }),
+  });
+  await github(session.accessToken, `${repoPrefix(config)}/git/refs/heads/${encodeURIComponent(config.branch)}`, { method: 'PATCH', body: JSON.stringify({ sha: commit.sha, force: false }) });
+  return { ok: true, slug: safeSlug, commit: commit.sha, message: 'Artículo eliminado. La web se actualizará en unos instantes.' };
 }

@@ -15,6 +15,10 @@ body { margin: 0; background: #c9c6bf; color: var(--ink); font-family: var(--san
 .draft-bar { padding: .5rem 2.5rem; border-bottom: 1px solid var(--rule); background: var(--paper); }
 .draft-bar label { max-width: 32rem; margin: .4rem 0; }
 .draft-bar select { margin-top: .35rem; }
+.published-bar { display: flex; align-items: center; gap: 1.25rem; padding: .75rem 1.25rem; background: var(--paper); border-bottom: 1px solid var(--rule); }
+.published-bar label { display: flex; align-items: center; gap: .75rem; margin: 0; letter-spacing: .08em; }
+.published-bar select { max-width: 38rem; margin: 0; }
+.published-bar p { margin: 0; color: var(--muted); font-size: .8rem; }
 .studio-shell { display: grid; grid-template-columns: minmax(360px, 520px) minmax(0, 1fr); min-height: calc(100vh - 58px); width: 100%; min-width: 0; }
 .editor-panel { min-width: 0; padding: 3rem 2.5rem; background: var(--paper); border-right: 1px solid var(--rule); overflow: auto; }
 .eyebrow { margin: 0; color: var(--muted); font-size: .72rem; letter-spacing: .28em; text-transform: uppercase; }
@@ -42,6 +46,8 @@ summary { cursor: pointer; letter-spacing: .18em; font-size: .75rem; text-transf
 .actions { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; margin-top: 1.8rem; }
 .actions button { border: 1px solid var(--ink); padding: .9rem .7rem; background: transparent; color: var(--ink); font: inherit; font-size: .72rem; letter-spacing: .16em; cursor: pointer; }
 .actions .primary { background: var(--ink); color: var(--paper); }
+.actions .danger { border-color: #8c201d; color: #8c201d; }
+.actions .danger:hover { background: #8c201d; color: var(--paper); }
 .actions button:hover { background: var(--accent); border-color: var(--accent); color: var(--paper); }
 .status { min-height: 2.8rem; color: var(--accent); font-size: .85rem; }
 .preview-panel { min-width: 0; padding: 2rem; overflow: auto; }
@@ -87,6 +93,8 @@ summary { cursor: pointer; letter-spacing: .18em; font-size: .75rem; text-transf
   .studio-header { padding-inline: 1rem; }
   .editor-panel { padding: 2rem 1.25rem; }
   .draft-bar { padding-inline: 1.25rem; }
+  .published-bar { align-items: stretch; flex-direction: column; gap: .35rem; padding: .7rem 1.25rem; }
+  .published-bar label { align-items: stretch; flex-direction: column; gap: .35rem; }
   .editor-panel h1 { font-size: clamp(3rem, 14vw, 4.2rem); }
   .editorial-insert-tools { align-items: stretch; }
   .markdown-import { display: inline-flex; align-items: center; min-height: 2.5rem; margin: 0; border: 1px solid var(--rule); padding: .45rem .7rem; font-size: .8rem; letter-spacing: 0; text-transform: none; }
