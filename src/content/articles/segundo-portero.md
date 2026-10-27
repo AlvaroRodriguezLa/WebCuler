@@ -3,8 +3,8 @@ title: Segundo Portero
 slug: segundo-portero
 date: 2026-06-22
 excerpt: La portería puede acabar convirtiéndose en una de las operaciones silenciosas del mercado. Si salen Ter Stegen e Iñaki Peña, si Astralaga termina contrato, si Kochen sale cedido y si Yaakobishvili vuelve a buscar…
-image: /images/articles/segundo-portero/legacy-1.png
-imageAlt: Segundo Portero
+image: /images/articles/segundo-portero/alex-remiro.webp
+imageAlt: Álex Remiro con la camiseta del Barça
 category: Perfiles
 tags:
   - Álex Remiro

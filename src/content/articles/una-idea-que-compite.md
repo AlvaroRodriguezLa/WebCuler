@@ -3,8 +3,8 @@ title: "No somos un club que juega al fútbol; somos una idea que compite"
 slug: una-idea-que-compite
 date: "2026-09-24"
 excerpt: "No somos un club que juega al fútbol; somos una idea que compite."
-image: /images/editorial-placeholder.svg
-imageAlt: "Placeholder editorial para No somos un club que juega al fútbol; somos una idea que compite"
+image: /images/articles/identidad/no-somos-club-idea.webp
+imageAlt: "Montaje editorial sobre la identidad del Barça y la idea que compite"
 category: "Identidad Barça"
 tags: [identidad, filosofía, Barça]
 featured: true

@@ -3,8 +3,8 @@ title: "Cerrar Mercado"
 slug: cerrar-mercado-kroupi-asllani-lukeba
 date: "2026-09-10"
 excerpt: "Kroupi, Asllani y Lukeba. Si no se puede hacer todo, confiaría plenamente en Gerard Martín antes que fichar por fichar."
-image: /images/editorial-placeholder.svg
-imageAlt: "Placeholder editorial para Cerrar Mercado"
+image: /images/articles/cerrar-mercado-kroupi-asllani-lukeba/mercado.webp
+imageAlt: "Montaje de Kroupi, Asllani y Lukeba como nuevos fichajes del Barça"
 category: "Construcción de plantilla"
 tags: [Kroupi, Asllani, Lukeba, Gerard Martín, Vlahović]
 subject: "Completar plantilla"

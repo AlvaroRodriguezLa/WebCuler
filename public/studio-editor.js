@@ -13,8 +13,11 @@ import { initializeArticleBlockEditor } from './article-blocks-editor.js';
   const previewWrap = document.querySelector('#preview-wrap');
   const status = document.querySelector('#status');
   const draftList = document.querySelector('#draft-list');
+  const publishedList = document.querySelector('#published-list');
   const saveButton = document.querySelector('#save-draft');
   const publishButton = document.querySelector('#publish');
+  const savePublishedButton = document.querySelector('#save-published');
+  const deletePublishedButton = document.querySelector('#delete-published');
   const photosToggle = document.querySelector('#show-player-photos');
   const photosPanel = document.querySelector('#player-photos-panel');
   const assetsList = document.querySelector('#player-assets-list');
@@ -24,6 +27,8 @@ import { initializeArticleBlockEditor } from './article-blocks-editor.js';
   let previewUrl = '';
   let currentImage = '';
   let draftIndex = [];
+  let publishedIndex = [];
+  let editorMode = 'new';
   let playerAssets = { schemaVersion: 1, assets: {} };
   let titleWasAutoFilled = !title.value.trim();
 
@@ -121,7 +126,31 @@ import { initializeArticleBlockEditor } from './article-blocks-editor.js';
     status.textContent = message;
   }
 
-  function fillForm(article) {
+  function setEditorMode(mode) {
+    editorMode = mode;
+    const isPublished = mode === 'published';
+    saveButton.hidden = publishButton.hidden = !['new', 'draft'].includes(mode);
+    savePublishedButton.hidden = deletePublishedButton.hidden = !isPublished;
+  }
+
+  function resetEditor(message = 'Nuevo artículo.') {
+    form.reset();
+    form.elements.slug.value = '';
+    form.elements.existingImage.value = '';
+    selectedFile = null;
+    currentImage = '';
+    if (previewUrl) URL.revokeObjectURL(previewUrl);
+    previewUrl = '';
+    imageInput.value = '';
+    fileName.textContent = 'No hay imagen seleccionada';
+    imagePrompt.innerHTML = 'Toca para elegir una imagen<br /><small>PNG, JPG o WebP. Se optimiza al guardar.</small>';
+    setEditorMode('new');
+    renderAssetManager();
+    setStatus(message);
+    renderPreview();
+  }
+
+  function fillForm(article, mode = 'draft') {
     titleWasAutoFilled = false;
     for (const key of ['title', 'text', 'category', 'subtitle', 'subject', 'season', 'date', 'excerpt', 'imageAlt', 'archive', 'imageFit', 'imagePosition']) {
       if (form.elements[key]) form.elements[key].value = article[key] ?? '';
@@ -132,6 +161,7 @@ import { initializeArticleBlockEditor } from './article-blocks-editor.js';
     photosToggle.checked = article.showPlayerPhotos === true;
     renderAssetManager();
     form.elements.slug.value = article.slug || article.path || '';
+    form.elements.existingImage.value = article.image || '';
     currentImage = article.image || '';
     selectedFile = null;
     previewUrl = '';
@@ -139,23 +169,43 @@ import { initializeArticleBlockEditor } from './article-blocks-editor.js';
     fileName.textContent = currentImage ? `Imagen guardada: ${currentImage.split('/').pop()}` : 'No hay imagen seleccionada';
     imagePrompt.innerHTML = 'Toca para cambiar la imagen<br /><small>PNG, JPG o WebP. Se optimiza al guardar.</small>';
     renderPreview();
-    setStatus('Borrador cargado. Puedes seguir editándolo.');
+    setEditorMode(mode);
+    setStatus(mode === 'published' ? 'Artículo publicado cargado. Puedes editarlo y guardar cambios.' : 'Borrador cargado. Puedes seguir editándolo.');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  async function loadDrafts() {
-    draftList.disabled = true;
+  async function loadArticleIndex() {
+    draftList.disabled = publishedList.disabled = true;
     try {
-      const response = await fetch('/api/articles', { credentials: 'same-origin', cache: 'no-store' });
+      const response = await fetch('/api/articles?index=all', { credentials: 'same-origin', cache: 'no-store' });
       const payload = await response.json();
-      if (!response.ok || !payload.ok) throw new Error(payload.error || 'No se pudieron cargar los borradores.');
-      draftIndex = payload.result;
+      if (!response.ok || !payload.ok) throw new Error(payload.error || 'No se pudieron cargar los artículos.');
+      draftIndex = payload.result.drafts;
+      publishedIndex = payload.result.published;
       draftList.replaceChildren(new Option('Nuevo artículo', ''));
       for (const article of draftIndex) draftList.add(new Option(`${article.title} · ${article.date || ''}`, article.slug || article.path));
+      const selected = publishedList.value;
+      publishedList.replaceChildren(new Option('Selecciona un artículo publicado', ''));
+      for (const article of publishedIndex) publishedList.add(new Option(`${article.title} · ${article.date || ''}${article.featured ? ' · DESTACADO' : ''}`, article.slug || article.path));
+      if (selected && publishedIndex.some((article) => (article.slug || article.path) === selected)) publishedList.value = selected;
     } catch (error) {
       setStatus(error.message, 'error');
     } finally {
-      draftList.disabled = false;
+      draftList.disabled = publishedList.disabled = false;
+    }
+  }
+
+  async function openPublished(slug) {
+    if (!slug) { resetEditor(); return; }
+    draftList.value = '';
+    setStatus('Abriendo artículo publicado…');
+    try {
+      const response = await fetch(`/api/articles?published=true&slug=${encodeURIComponent(slug)}`, { credentials: 'same-origin', cache: 'no-store' });
+      const payload = await response.json();
+      if (!response.ok || !payload.ok) throw new Error(payload.error || 'No se pudo abrir el artículo publicado.');
+      fillForm(payload.result, 'published');
+    } catch (error) {
+      setStatus(error.message, 'error');
     }
   }
 
@@ -197,7 +247,8 @@ import { initializeArticleBlockEditor } from './article-blocks-editor.js';
       return;
     }
     if (action === 'publish' && !window.confirm('Se publicará el artículo y se iniciará la actualización de la web. ¿Continuar?')) return;
-    saveButton.disabled = publishButton.disabled = true;
+    if (action === 'update' && !window.confirm('Se guardarán los cambios en el artículo publicado y se actualizará la web. ¿Continuar?')) return;
+    saveButton.disabled = publishButton.disabled = savePublishedButton.disabled = deletePublishedButton.disabled = true;
     setStatus(selectedFile ? 'Optimizando imagen y guardando en GitHub…' : 'Guardando en GitHub…');
     try {
       const fields = Object.fromEntries(new FormData(form).entries());
@@ -228,7 +279,7 @@ import { initializeArticleBlockEditor } from './article-blocks-editor.js';
       fileName.textContent = `Guardada: ${currentImage.split('/').pop()}`;
       imagePrompt.innerHTML = 'Toca para cambiar la imagen<br /><small>La imagen actual se conserva si no eliges otra.</small>';
       setStatus(result.message, 'success');
-      if (!result.draft) {
+      if (!result.draft && action !== 'update') {
         const link = document.createElement('a');
         link.href = result.url;
         link.target = '_blank';
@@ -239,17 +290,23 @@ import { initializeArticleBlockEditor } from './article-blocks-editor.js';
         form.reset();
         form.elements.slug.value = '';
         currentImage = '';
+        form.elements.existingImage.value = '';
+        setEditorMode('new');
         fileName.textContent = 'No hay imagen seleccionada';
         imagePrompt.innerHTML = 'Toca para elegir una imagen<br /><small>PNG, JPG o WebP. Se optimiza al guardar.</small>';
         renderAssetManager();
         renderPreview();
       }
-      await loadDrafts();
+      await loadArticleIndex();
       if (result.draft) draftList.value = result.slug;
+      if (action === 'update') {
+        publishedList.value = result.slug;
+        setEditorMode('published');
+      }
     } catch (error) {
       setStatus(error.message || 'Error al guardar.', 'error');
     } finally {
-      saveButton.disabled = publishButton.disabled = false;
+      saveButton.disabled = publishButton.disabled = savePublishedButton.disabled = deletePublishedButton.disabled = false;
     }
   }
 
@@ -293,17 +350,9 @@ import { initializeArticleBlockEditor } from './article-blocks-editor.js';
   });
   draftList.addEventListener('change', async () => {
     const slug = draftList.value;
+    publishedList.value = '';
     if (!slug) {
-      form.reset();
-      form.elements.slug.value = '';
-      selectedFile = null;
-      currentImage = '';
-      previewUrl = '';
-      imageInput.value = '';
-      fileName.textContent = 'No hay imagen seleccionada';
-      renderAssetManager();
-      setStatus('Nuevo artículo.');
-      renderPreview();
+      resetEditor();
       return;
     }
     setStatus('Abriendo borrador…');
@@ -311,19 +360,41 @@ import { initializeArticleBlockEditor } from './article-blocks-editor.js';
       const response = await fetch(`/api/articles?slug=${encodeURIComponent(slug)}`, { credentials: 'same-origin', cache: 'no-store' });
       const payload = await response.json();
       if (!response.ok || !payload.ok) throw new Error(payload.error || 'No se pudo abrir el borrador.');
-      fillForm(payload.result);
+      fillForm(payload.result, 'draft');
     } catch (error) {
       setStatus(error.message, 'error');
     }
   });
+  publishedList.addEventListener('change', () => openPublished(publishedList.value));
+  deletePublishedButton.addEventListener('click', async () => {
+    const slug = form.elements.slug.value;
+    if (editorMode !== 'published' || !slug) return;
+    if (!window.confirm(`Eliminar definitivamente «${title.value}» de la web? Se creará un commit y la publicación dejará de aparecer cuando termine el despliegue.`)) return;
+    deletePublishedButton.disabled = true;
+    setStatus('Eliminando artículo publicado…');
+    try {
+      const response = await fetch(`/api/articles?slug=${encodeURIComponent(slug)}`, { method: 'DELETE', credentials: 'same-origin', cache: 'no-store' });
+      const payload = await response.json();
+      if (!response.ok || !payload.ok) throw new Error(payload.error || 'No se pudo eliminar el artículo.');
+      await loadArticleIndex();
+      publishedList.value = '';
+      draftList.value = '';
+      resetEditor(payload.message);
+    } catch (error) {
+      setStatus(error.message, 'error');
+    } finally {
+      deletePublishedButton.disabled = false;
+    }
+  });
   saveButton.addEventListener('click', () => submit('draft'));
   publishButton.addEventListener('click', () => submit('publish'));
+  savePublishedButton.addEventListener('click', () => submit('update'));
   initializeArticleBlockEditor({ textarea: text, refreshPreview: renderPreview });
   fetch('/api/studio/player-assets', { credentials: 'same-origin', cache: 'no-store' }).then((response) => response.ok ? response.json() : null).then((payload) => {
     const manifest = payload?.result;
     if (manifest?.schemaVersion === 1 && manifest.assets && typeof manifest.assets === 'object') { playerAssets = manifest; renderPreview(); renderAssetManager(); }
     else if (photosToggle.checked) assetsStatus.textContent = 'Inicia sesión para consultar la biblioteca de fotografías.';
   }).catch(() => {});
-  document.addEventListener('studio:authorized', () => { renderPreview(); loadDrafts(); });
+  document.addEventListener('studio:authorized', () => { renderPreview(); loadArticleIndex(); });
   renderPreview();
 })();

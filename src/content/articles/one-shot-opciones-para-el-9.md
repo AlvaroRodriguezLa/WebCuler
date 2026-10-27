@@ -3,8 +3,8 @@ title: "One Shot"
 slug: one-shot-opciones-para-el-9
 date: "2026-09-12"
 excerpt: "Con Julián compras certeza. Con Kroupi compras futuro. Con Tresoldi compras equilibrio. Y con una cesión compras flexibilidad."
-image: /images/editorial-placeholder.svg
-imageAlt: "Placeholder editorial para One Shot"
+image: /images/articles/one-shot/opciones-del-barca-2026-27.webp
+imageAlt: "Gráfico editorial con las opciones del Barça para el puesto de delantero centro"
 category: "Construcción de plantilla"
 tags: [Julián Álvarez, Eli Junior Kroupi, Tresoldi, Asllani, Woltemade, Gyökeres]
 subject: "Opciones para el 9"
