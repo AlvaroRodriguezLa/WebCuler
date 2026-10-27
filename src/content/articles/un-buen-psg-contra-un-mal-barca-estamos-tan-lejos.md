@@ -1,20 +1,26 @@
 ---
-title: "Un buen PSG contra un mal Barça. ¿Estamos tan lejos?"
+title: Un buen PSG contra un mal Barça. ¿Estamos tan lejos?
 slug: un-buen-psg-contra-un-mal-barca-estamos-tan-lejos
-date: "2026-10-20"
-excerpt: "No voy a maquillar el 4-2. El PSG fue superior, nos sometió durante demasiados minutos y Joan García evitó que el resultado fuese bastante más duro. Pero hay algo que me hace salir del partido más optimista de lo que pod"
+date: 2026-10-20
+excerpt: No voy a maquillar el 4-2. El PSG fue superior, nos sometió durante demasiados minutos y Joan García evitó que el resultado fuese bastante más duro. Pero hay algo que me hace salir del partido más optimista de lo que pod
 image: /uploads/un-buen-psg-contra-un-mal-barca-estamos-tan-lejos-1792573424184.webp
-imageAlt: "Imagen editorial para Un buen PSG contra un mal Barça. ¿Estamos tan lejos?"
-category: "Análisis"
-tags: ["PSG","Xavi Espart","Joan García","Lamine Yamal","Rodri","Pedri"]
-season: "2026-2027"
-
-featured: true
+imageAlt: Imagen editorial para Un buen PSG contra un mal Barça. ¿Estamos tan lejos?
+category: Análisis
+tags:
+  - PSG
+  - Xavi Espart
+  - Joan García
+  - Lamine Yamal
+  - Rodri
+  - Pedri
+season: 2026-2027
+featured: false
 evergreen: false
 draft: false
 readingTime: 3
 imageFit: contain
 imagePosition: center
+showPlayerPhotos: false
 ---
 
 No voy a maquillar el 4-2. **El PSG fue superior**, nos sometió durante demasiados minutos y Joan García evitó que el resultado fuese bastante más duro.
