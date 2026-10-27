@@ -3,9 +3,9 @@ title: "Fichar en 2026: inflación y precios reales"
 slug: fichar-en-2026-inflacion-y-precios-reales
 date: 2026-07-01
 excerpt: Comparar fichajes de 2026 con precios de hace diez años lleva a conclusiones engañosas. El mercado del fútbol ha cambiado por inflación propia, por el peso económico de la Premier y por factores regulatorios como el…
-image: /images/articles/fichar-en-2026-inflacion-y-precios-reales/legacy-2.jpg
+image: /uploads/fichar-en-2026-inflacion-y-precios-reales-1793110485174.webp
 imageAlt: "Fichar en 2026: inflación y precios reales"
-category: Planificación
+category: Análisis
 tags:
   - inflación
   - Premier League
@@ -27,6 +27,8 @@ legacyVisuals:
 canonical: false
 publishedBase: false
 migrationStatus: visual-transcription
+showPlayerPhotos: false
+readingTime: 2
 ---
 
 Comparar fichajes de 2026 con precios de hace diez años lleva a conclusiones engañosas. El mercado del fútbol ha cambiado por inflación propia, por el peso económico de la Premier y por factores regulatorios como el valor del jugador formado localmente.
