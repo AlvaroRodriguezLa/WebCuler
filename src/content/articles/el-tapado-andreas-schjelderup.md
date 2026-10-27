@@ -10,7 +10,8 @@ tags: [Andreas Schjelderup, extremo, creatividad, perfil]
 subject: "Andreas Schjelderup"
 season: "2026-2027"
 evergreen: true
-draft: false
+draft: true
+redirectTo: el-tapado
 imageFit: contain
 imagePosition: center
 ---

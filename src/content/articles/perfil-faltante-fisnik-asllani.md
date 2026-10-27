@@ -10,7 +10,8 @@ tags: [Fisnik Asllani, delantero, perfil, juego de espaldas]
 subject: "Fisnik Asllani"
 season: "2026-2027"
 evergreen: true
-draft: false
+draft: true
+redirectTo: perfil-faltante
 imageFit: contain
 imagePosition: center
 ---

@@ -19,21 +19,15 @@ const coverMappings = [
   ['lateral-derecho', '/images/articles/lateral-derecho/konrad-laimer.jpg'],
   ['oxigeno-pedri', '/images/articles/oxigeno-pedri/kees-smit.jpg'],
   ['fichajes-2026-2027', '/images/articles/fichajes-2026-2027/mercado-2026-27.webp'],
-  ['cerrar-el-mercado', '/images/articles/cerrar-el-mercado/cerrar-mercado.webp'],
   ['cerrar-el-mercado-repartir-el-riesgo', '/images/articles/cerrar-el-mercado-repartir-el-riesgo/cover.webp'],
   ['la-sorpresa', '/images/articles/la-sorpresa/cover.webp'],
   ['one-shot', '/images/articles/one-shot/cover.webp'],
   ['red-flag', '/images/articles/red-flag/cover.webp'],
   ['el-tapado', '/images/articles/el-tapado/cover.webp'],
-  ['el-tapado-andreas-schjelderup', '/images/articles/el-tapado-andreas-schjelderup/cover.webp'],
   ['perfil-faltante', '/images/articles/perfil-faltante/cover.webp'],
-  ['perfil-faltante-fisnik-asllani', '/images/articles/perfil-faltante-fisnik-asllani/cover.webp'],
   ['segundo-portero', '/images/articles/segundo-portero/cover.webp'],
-  ['segundo-portero-alex-remiro', '/images/articles/segundo-portero-alex-remiro/cover.webp'],
   ['una-idea-que-compite', '/images/articles/una-idea-que-compite/cover.webp'],
-  ['no-somos-un-club-que-juega-al-futbol-somos-una-idea-que-compite', '/images/articles/identidad/no-somos-club-idea.webp'],
   ['cerrar-mercado-kroupi-asllani-lukeba', '/images/articles/cerrar-mercado-kroupi-asllani-lukeba/cover.webp'],
-  ['one-shot-opciones-para-el-9', '/images/articles/one-shot-opciones-para-el-9/cover.webp'],
   ['nueve-total', '/images/articles/nueve-total/cover.webp'],
   ['el-nuevo-raphinha', '/images/articles/el-nuevo-raphinha/cover.webp'],
   ['tercer-central', '/images/articles/tercer-central/cover.webp'],
@@ -50,6 +44,19 @@ for (const [slug, cover] of coverMappings) {
   const markdown = await readFile(`src/content/articles/${slug}.md`, 'utf8');
   assert.match(markdown, new RegExp(`^image: ${cover.replaceAll('/', '\\/')}$`, 'm'), `${slug} points to its selected image`);
   await stat(path.join('public', cover.slice(1)));
+}
+const redirects = [
+  ['cerrar-el-mercado', 'cerrar-el-mercado-repartir-el-riesgo'],
+  ['el-tapado-andreas-schjelderup', 'el-tapado'],
+  ['one-shot-opciones-para-el-9', 'one-shot'],
+  ['perfil-faltante-fisnik-asllani', 'perfil-faltante'],
+  ['segundo-portero-alex-remiro', 'segundo-portero'],
+  ['no-somos-un-club-que-juega-al-futbol-somos-una-idea-que-compite', 'una-idea-que-compite'],
+];
+for (const [slug, target] of redirects) {
+  const markdown = await readFile(`src/content/articles/${slug}.md`, 'utf8');
+  assert.match(markdown, /^draft: true$/m, `${slug} is hidden from public listings`);
+  assert.match(markdown, new RegExp(`^redirectTo: ${target}$`, 'm'), `${slug} preserves its URL with a redirect`);
 }
 const articleApi = await readFile('api/articles.mjs', 'utf8');
 assert.match(articleApi, /listPublished/);

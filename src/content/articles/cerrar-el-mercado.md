@@ -11,7 +11,8 @@ tags:
   - Tresoldi
   - Calafiori
   - Lukeba
-draft: false
+draft: true
+redirectTo: cerrar-el-mercado-repartir-el-riesgo
 evergreen: false
 featured: false
 season: 2026-2027

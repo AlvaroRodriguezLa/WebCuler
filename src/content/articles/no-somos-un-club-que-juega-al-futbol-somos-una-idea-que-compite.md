@@ -9,7 +9,8 @@ category: Identidad
 tags:
   - identidad
   - filosofía Barça
-draft: false
+draft: true
+redirectTo: una-idea-que-compite
 evergreen: true
 featured: true
 imageFit: contain

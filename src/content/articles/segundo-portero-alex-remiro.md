@@ -10,7 +10,8 @@ tags: [Álex Remiro, portería, plantilla]
 subject: "Álex Remiro"
 season: "2026-2027"
 evergreen: true
-draft: false
+draft: true
+redirectTo: segundo-portero
 imageFit: contain
 imagePosition: center
 ---

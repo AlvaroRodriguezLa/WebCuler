@@ -10,7 +10,8 @@ tags: [Julián Álvarez, Eli Junior Kroupi, Tresoldi, Asllani, Woltemade, Gyöke
 subject: "Opciones para el 9"
 season: "2026-2027"
 evergreen: false
-draft: false
+draft: true
+redirectTo: one-shot
 archive: mercado-2026-27
 imageFit: contain
 imagePosition: center
