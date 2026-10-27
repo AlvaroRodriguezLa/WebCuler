@@ -24,7 +24,7 @@ const featuredImageAlt = featured?.data.legacyVisuals.includes(featured.data.ima
     <div class="feature-copy">
       <p class="eyebrow">Artículo destacado / {categoryLabel(featured.data.category)}</p>
       <h2 id="featured-title"><a href={articlePath(featured.data.slug)}>{featured.data.title}</a></h2>
-      <p class="lede">{featured.data.excerpt}</p>
+      {featured.data.showFeaturedExcerpt && <p class="lede">{featured.data.excerpt}</p>}
     </div>
     <a class="feature-image" href={articlePath(featured.data.slug)} aria-label={`Leer ${featured.data.title}`}>
       <img src={featuredImage} alt={featuredImageAlt} style={`object-fit:${featured.data.imageFit};object-position:${featured.data.imagePosition}`} />

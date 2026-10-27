@@ -8,6 +8,7 @@ imageAlt: "Montaje editorial sobre la identidad del Barça y la idea que compite
 category: "Identidad Barça"
 tags: [identidad, filosofía, Barça]
 featured: true
+showFeaturedExcerpt: false
 evergreen: true
 draft: false
 imageFit: contain

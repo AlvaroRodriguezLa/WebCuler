@@ -8,6 +8,7 @@ const home = await readFile('src/pages/index.astro', 'utf8');
 const article = await readFile('src/pages/articulos/[slug].astro', 'utf8');
 const collection = await readFile('src/content.config.ts', 'utf8');
 assert.match(home, /Artículo destacado/);
+assert.match(home, /featured\.data\.showFeaturedExcerpt/);
 assert.match(article, /getStaticPaths/);
 assert.match(collection, /draft: z\.boolean/);
 const coverMappings = [
