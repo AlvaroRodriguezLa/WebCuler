@@ -74,7 +74,8 @@ img { max-width: 100%; display: block; }
 .article-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2rem; }
 .text-button { border: 1px solid var(--rule); background: transparent; color: var(--ink); padding: .7rem .9rem; font: inherit; font-size: .75rem; letter-spacing: .2em; text-transform: uppercase; cursor: pointer; }
 .text-button:hover { background: var(--ink); color: var(--paper); }
-.article-body { grid-column: 1; grid-row: 2; max-width: 52rem; padding-top: 3rem; font-size: var(--body-size); line-height: 1.7; text-align: justify; text-justify: inter-word; }
+.article-body { grid-column: 1; grid-row: 2; width: 100%; min-width: 0; max-width: 52rem; padding-top: 3rem; font-size: var(--body-size); line-height: 1.7; text-align: justify; text-justify: inter-word; }
+.article-body > * { min-width: 0; max-width: 100%; }
 .article-body h2, .article-body h3, .article-body .article-lede { text-align: left; }
 .article-body p { margin: 0 0 1.55em; }
 .article-body h2, .article-body h3 { margin: 2.2em 0 .65em; line-height: 1; letter-spacing: -.04em; }
@@ -120,7 +121,7 @@ img { max-width: 100%; display: block; }
   .home-intro h1 { font-size: clamp(3.8rem, 19vw, 6rem); }
   .feature h2 { font-size: clamp(3.3rem, 17vw, 5.5rem); }
   .article-grid-list { grid-template-columns: 1fr; }
-  .article-title h1 { font-size: clamp(3.7rem, 17vw, 6rem); }
+  .article-title h1 { font-size: clamp(3.7rem, 17vw, 6rem); overflow-wrap: anywhere; }
   .article-body { font-size: 1.08rem; }
   .site-footer { display: block; }
   .site-header { grid-template-columns: 1fr; }
