@@ -3,8 +3,8 @@ title: Red Flag
 slug: red-flag
 date: 2026-06-18
 excerpt: El gran error sería mirar todo esto y acabar financiando al PSG por Barcola. Para mí, Barcola debe ser una red flag clarísima. Si Luis Enrique, que es probablemente el entrenador que más exige justo lo que necesita el…
-image: /images/articles/red-flag/legacy-1.jpg
-imageAlt: Red Flag
+image: /images/articles/red-flag/red-flag.webp
+imageAlt: Gráfico editorial Red Flag sobre Bradley Barcola
 category: Perfiles
 tags:
   - Barcola

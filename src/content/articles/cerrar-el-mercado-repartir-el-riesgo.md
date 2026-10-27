@@ -3,8 +3,8 @@ title: "Cerrar el Mercado"
 slug: cerrar-el-mercado-repartir-el-riesgo
 date: "2026-09-14"
 excerpt: "En lugar de poner todo el presupuesto en Julián, pruebas un 9, compras otro para desarrollarlo y construyes una defensa más completa."
-image: /images/editorial-placeholder.svg
-imageAlt: "Placeholder editorial basado en la referencia visual del artículo Cerrar el Mercado"
+image: /images/articles/cerrar-el-mercado/cerrar-mercado.webp
+imageAlt: "Gráfico editorial con alternativas tras la negativa del Atlético a vender a Julián"
 category: "Construcción de plantilla"
 tags: [Woltemade, Tresoldi, Calafiori, Lukeba, Salinas, Koundé]
 subject: "Completar plantilla"

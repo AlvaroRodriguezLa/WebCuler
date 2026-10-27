@@ -3,8 +3,8 @@ title: One Shot
 slug: one-shot
 date: 2026-08-17
 excerpt: "Hasta hace poco tenía bastante claro que Julián debía ser el 9 a fichar, pero ahora ya no lo veo tan evidente. Sigue siendo la opción más segura: nivel inmediato, movilidad, autosuficiencia, asociación y una presión que…"
-image: /images/articles/one-shot/legacy-1.png
-imageAlt: One Shot
+image: /images/articles/one-shot/opciones-del-barca-2026-27.webp
+imageAlt: Gráfico editorial con las opciones del Barça para el puesto de delantero centro
 category: Construcción de plantilla
 tags:
   - Julián Álvarez

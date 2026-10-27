@@ -3,8 +3,8 @@ title: Cerrar Mercado
 slug: cerrar-mercado
 date: 2026-07-27
 excerpt: "Si hoy tuviera que cerrar la plantilla del Barça, mi apuesta sería muy clara: Eli Junior Kroupi Fisnik Asllani Castello Lukeba (y si no es posible, confiaría plenamente en Gerard Martín). No creo que haga falta mucho…"
-image: /images/articles/cerrar-mercado/legacy-1.png
-imageAlt: Cerrar Mercado
+image: /images/articles/cerrar-mercado-kroupi-asllani-lukeba/mercado.webp
+imageAlt: Montaje de Kroupi, Asllani y Lukeba como nuevos fichajes del Barça
 category: Construcción de plantilla
 tags:
   - Kroupi
