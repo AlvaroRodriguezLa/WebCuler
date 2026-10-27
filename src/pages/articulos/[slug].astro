@@ -53,7 +53,7 @@ const redirectUrl = data.redirectTo ? new URL(sitePath(`/articulos/${data.redire
         </figure>
       </aside>
       <div class="article-body">
-        {data.excerpt && <p class="article-lede"><strong>{data.excerpt}</strong></p>}
+        {data.excerpt && data.showArticleLede && <p class="article-lede"><strong>{data.excerpt}</strong></p>}
         <Content />
         {data.supportingImages.length > 0 && <div class="article-supporting-images">
           {data.supportingImages.map((image) => <figure><img src={sitePath(image.src)} alt={image.alt} loading="lazy" /></figure>)}

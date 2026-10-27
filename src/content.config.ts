@@ -17,6 +17,7 @@ const articles = defineCollection({
     season: z.string().optional(),
     featured: z.boolean().default(false),
     showFeaturedExcerpt: z.boolean().default(true),
+    showArticleLede: z.boolean().default(true),
     evergreen: z.boolean().default(false),
     draft: z.boolean().default(false),
     showPlayerPhotos: z.boolean().default(false),
