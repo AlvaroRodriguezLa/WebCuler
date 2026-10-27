@@ -3,8 +3,8 @@ title: El Central de Flick
 slug: el-central-de-flick
 date: 2026-06-18
 excerpt: "Van de Ven es la apuesta más radical por el perfil corrector. Sus datos pueden dejar dudas, y seguramente su suelo competitivo sea el más bajo de todos los grandes nombres si lo sacas de contexto: no es tan fino como…"
-image: /images/articles/el-central-de-flick/legacy-1.jpg
-imageAlt: El Central de Flick
+image: /images/articles/el-central-de-flick/micky-van-de-ven.jpg
+imageAlt: Micky van de Ven durante un partido con el Tottenham
 category: Perfiles
 tags:
   - Van de Ven

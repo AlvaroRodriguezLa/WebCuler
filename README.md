@@ -22,7 +22,7 @@ La navegación editorial está en `4321`; `4322` es únicamente el Studio de pub
 
 ### Abrir el Studio desde el móvil
 
-Conecta el móvil y el ordenador a la misma Wi-Fi y ejecuta `npm run studio`. La terminal mostrará una dirección como `http://192.168.1.25:4322`; abre esa dirección desde el móvil. Si Windows muestra una alerta del Firewall, permite Node.js únicamente en redes privadas. No uses esta dirección en una Wi-Fi pública: el Studio permite guardar archivos y ejecutar acciones Git en el ordenador.
+Conecta el móvil y el ordenador a la misma Wi-Fi y ejecuta `npm run studio`. La terminal muestra la dirección de red y un código de acceso temporal; abre la dirección desde el móvil e introduce ese código. El código cambia al reiniciar. Si Windows muestra una alerta del Firewall, permite Node.js únicamente en redes privadas.
 
 1. Escribe el título.
 2. Pega el texto en Markdown.
@@ -66,6 +66,10 @@ Para dominio propio o repositorio de usuario, ajusta `PUBLIC_SITE_URL` en el wor
 - [Sistema de diseño](docs/DESIGN_SYSTEM.md)
 - [Flujo de contenido](docs/CONTENT_WORKFLOW.md)
 - [Arquitectura](docs/ARCHITECTURE.md)
+- [Acceso por correo al Studio](docs/STUDIO_EMAIL_LOGIN.md)
+- [Bloques editoriales enriquecidos](docs/EDITORIAL_BLOCKS.md)
+- [Contrato ONE SHOT Enriched Markdown v1](docs/ENRICHED_MARKDOWN_SPEC.md)
+- [Prompt reutilizable para ChatGPT](docs/CHATGPT_ARTICLE_PROMPT.md)
 
 ## Alcance actual
 

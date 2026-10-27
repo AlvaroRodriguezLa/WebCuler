@@ -7,14 +7,16 @@
     "dev": "astro dev --host 127.0.0.1 --port 4321",
     "studio": "node studio/server.mjs",
     "check": "astro check",
-    "prebuild": "node scripts/generate-social-cards.mjs",
+    "prebuild": "node scripts/publish-player-assets.mjs && node scripts/generate-social-cards.mjs",
     "build": "astro build",
-    "test": "node tests/smoke.test.mjs && node tests/archive-import.test.mjs",
-    "import:archive": "node scripts/import-archive.mjs"
+    "test": "node tests/smoke.test.mjs && node tests/auth-email-otp.test.mjs && node tests/article-blocks.test.mjs && node tests/article-publisher.test.mjs && node tests/archive-import.test.mjs",
+    "import:archive": "node scripts/import-archive.mjs",
+    "assets:publish": "node scripts/publish-player-assets.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.0",
     "@astrojs/sitemap": "^3.2.0",
+    "@vercel/blob": "^2.8.2",
     "astro": "^5.14.1",
     "sharp": "^0.34.3",
     "yaml": "^2.9.1"

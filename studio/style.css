@@ -12,8 +12,11 @@
 body { margin: 0; background: #c9c6bf; color: var(--ink); font-family: var(--sans); line-height: 1.5; }
 .studio-header { height: 58px; display: flex; align-items: center; justify-content: space-between; padding: 0 2rem; background: var(--ink); color: var(--paper); font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; }
 .studio-header a { color: inherit; text-decoration: none; font-weight: 800; }
-.studio-shell { display: grid; grid-template-columns: minmax(360px, 520px) minmax(0, 1fr); min-height: calc(100vh - 58px); }
-.editor-panel { padding: 3rem 2.5rem; background: var(--paper); border-right: 1px solid var(--rule); overflow: auto; }
+.draft-bar { padding: .5rem 2.5rem; border-bottom: 1px solid var(--rule); background: var(--paper); }
+.draft-bar label { max-width: 32rem; margin: .4rem 0; }
+.draft-bar select { margin-top: .35rem; }
+.studio-shell { display: grid; grid-template-columns: minmax(360px, 520px) minmax(0, 1fr); min-height: calc(100vh - 58px); width: 100%; min-width: 0; }
+.editor-panel { min-width: 0; padding: 3rem 2.5rem; background: var(--paper); border-right: 1px solid var(--rule); overflow: auto; }
 .eyebrow { margin: 0; color: var(--muted); font-size: .72rem; letter-spacing: .28em; text-transform: uppercase; }
 .editor-panel h1 { margin: .6rem 0 1rem; font-size: clamp(3.5rem, 7vw, 6.5rem); line-height: .86; letter-spacing: -.07em; }
 .intro { max-width: 30rem; color: var(--muted); }
@@ -41,12 +44,12 @@ summary { cursor: pointer; letter-spacing: .18em; font-size: .75rem; text-transf
 .actions .primary { background: var(--ink); color: var(--paper); }
 .actions button:hover { background: var(--accent); border-color: var(--accent); color: var(--paper); }
 .status { min-height: 2.8rem; color: var(--accent); font-size: .85rem; }
-.preview-panel { padding: 2rem; overflow: auto; }
+.preview-panel { min-width: 0; padding: 2rem; overflow: auto; }
 .preview-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; color: var(--ink); font-size: .72rem; letter-spacing: .22em; text-transform: uppercase; }
 .preview-wrap { max-width: 100%; margin: 0 auto; container-type: inline-size; transition: max-width .2s ease; }
 .preview-wrap.desktop { max-width: 1120px; }
 .preview-wrap.mobile { width: 100%; max-width: 390px; }
-.preview-page { min-height: 820px; padding: 4rem; background: var(--paper); }
+.preview-page { min-height: 820px; min-width: 0; width: 100%; padding: 4rem; background: var(--paper); }
 .preview-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); grid-template-rows: auto 1fr; gap: 1.5rem 4rem; }
 .preview-heading { grid-column: 1; grid-row: 1; min-width: 0; }
 .preview-title { max-width: 8ch; margin: .7rem 0 1.5rem; font-size: clamp(3.2rem, 7vw, 6.5rem); line-height: .88; letter-spacing: -.07em; }
@@ -66,14 +69,29 @@ summary { cursor: pointer; letter-spacing: .18em; font-size: .75rem; text-transf
 .preview-wrap.mobile .preview-copy { grid-column: 1; grid-row: 3; }
 
 @media (max-width: 900px) {
-  .studio-shell { grid-template-columns: 1fr; }
+  .studio-shell { grid-template-columns: minmax(0, 1fr); }
   .editor-panel { border-right: 0; border-bottom: 1px solid var(--rule); }
-  .preview-panel { padding: 1rem; }
-  .preview-page { padding: 2rem; }
+  .preview-panel { width: 100%; padding: 1rem; overflow: visible; }
+  .preview-wrap, .preview-page, .preview-grid { width: 100%; min-width: 0; }
+  .preview-page { padding: 1.25rem; }
   .preview-grid { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto auto; gap: 1.5rem; }
   .preview-heading { grid-column: 1; grid-row: 1; }
   .preview-image { grid-column: 1; grid-row: 2; padding: 1rem 0 0; border-top: 1px solid var(--rule); border-left: 0; }
   .preview-copy { grid-column: 1; grid-row: 3; }
   .preview-title { font-size: clamp(3rem, 12cqw, 4.5rem); }
   .preview-image img { height: min(90cqw, 380px); }
+}
+
+@media (max-width: 600px) {
+  html, body { max-width: 100%; overflow-x: clip; }
+  .studio-header { padding-inline: 1rem; }
+  .editor-panel { padding: 2rem 1.25rem; }
+  .draft-bar { padding-inline: 1.25rem; }
+  .editor-panel h1 { font-size: clamp(3rem, 14vw, 4.2rem); }
+  .editorial-insert-tools { align-items: stretch; }
+  .markdown-import { display: inline-flex; align-items: center; min-height: 2.5rem; margin: 0; border: 1px solid var(--rule); padding: .45rem .7rem; font-size: .8rem; letter-spacing: 0; text-transform: none; }
+  .markdown-import input { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); }
+  .preview-page { padding: 1rem; }
+  .preview-title { max-width: 100%; overflow-wrap: anywhere; }
+  .preview-copy, .preview-copy * { min-width: 0; overflow-wrap: anywhere; }
 }

@@ -1,4 +1,5 @@
 import { authorizedSession } from './auth.mjs';
+import { stripArticleBlocks, validateArticleBlocks } from '../../public/article-blocks.mjs';
 
 const API = 'https://api.github.com';
 const rootPath = 'src/content/articles';
@@ -11,7 +12,7 @@ function slugify(value) {
 function yaml(value) { return JSON.stringify(value ?? ''); }
 
 function readingTime(text) {
-  return Math.max(1, Math.ceil(String(text || '').trim().split(/\s+/).filter(Boolean).length / 220));
+  return Math.max(1, Math.ceil(stripArticleBlocks(text).split(/\s+/).filter(Boolean).length / 220));
 }
 
 function toMarkdown(article, image) {
@@ -31,6 +32,7 @@ function toMarkdown(article, image) {
     `featured: ${Boolean(article.featured)}`,
     `evergreen: ${Boolean(article.evergreen)}`,
     `draft: ${Boolean(article.draft)}`,
+    `showPlayerPhotos: ${Boolean(article.showPlayerPhotos)}`,
     `readingTime: ${readingTime(article.text)}`,
     `imageFit: ${article.imageFit === 'cover' ? 'cover' : 'contain'}`,
     `imagePosition: ${/^(center|top|bottom|left|right|center top|center bottom|left center|right center)$/.test(article.imagePosition) ? article.imagePosition : 'center'}`,
@@ -131,6 +133,7 @@ export async function saveArticle(req, res, body) {
   const text = String(body.text || '').trim();
   if (!title || !text) throw new Error('Escribe un título y el texto del artículo.');
   if (title.length > 180 || text.length > 100_000) throw new Error('El título o el artículo supera el tamaño permitido.');
+  validateArticleBlocks(text);
   if (!['draft', 'publish'].includes(body.action)) throw new Error('Elige si quieres guardar un borrador o publicar el artículo.');
   let slug = slugify(body.slug || title);
   if (body.slug && slug !== body.slug) throw new Error('El identificador del artículo no es válido.');
@@ -155,13 +158,14 @@ export async function saveArticle(req, res, body) {
     slug,
     text,
     date: validDate ? inputDate : new Date().toISOString().slice(0, 10),
-    excerpt: String(body.excerpt || text.replace(/[#>*_`\[\]]/g, '').replace(/\s+/g, ' ').trim().slice(0, 220)),
+    excerpt: String(body.excerpt || stripArticleBlocks(text).replace(/[#>*_`\[\]]/g, '').replace(/\s+/g, ' ').trim().slice(0, 220)),
     category: String(body.category || 'Análisis').slice(0, 100),
     imageAlt: String(body.imageAlt || '').slice(0, 240),
     tags: Array.isArray(body.tags) ? body.tags.map(String).slice(0, 20) : [],
     featured: Boolean(body.featured),
     evergreen: Boolean(body.evergreen),
     draft: body.action === 'draft',
+    showPlayerPhotos: body.showPlayerPhotos === true,
   };
   const articleFile = `${rootPath}/${slug}.md`;
   const articlePath = `/contents/${articleFile}`;

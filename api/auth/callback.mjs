@@ -1,4 +1,4 @@
-import { clearAuthCookies, clearStateCookie, json, parseCookies, publicOrigin, redirect, requireConfig, setAuthCookies, STATE_COOKIE } from '../_lib/auth.mjs';
+import { clearAuthCookies, clearStateCookie, emailOtpEnabled, json, parseCookies, publicOrigin, redirect, requireConfig, sendEmailOtp, setAuthCookies, STATE_COOKIE } from '../_lib/auth.mjs';
 
 export default async function handler(req, res) {
   try {
@@ -25,16 +25,25 @@ export default async function handler(req, res) {
       clearAuthCookies(res);
       return redirect(res, '/studio/?error=not-authorized');
     }
-    setAuthCookies(res, {
+    const session = {
       id: user.id,
       login: user.login,
       accessToken: token.access_token,
       refreshToken: token.refresh_token,
       tokenExpiresAt: Date.now() + Number(token.expires_in || 28800) * 1000,
       refreshTokenExpiresAt: Date.now() + Number(token.refresh_token_expires_in || 15897600) * 1000,
-    });
+    };
+    if (emailOtpEnabled()) {
+      await sendEmailOtp(session, res);
+      return redirect(res, '/studio/?verify=email');
+    }
+    setAuthCookies(res, session);
     redirect(res, '/studio/');
   } catch (error) {
+    if (emailOtpEnabled()) {
+      clearAuthCookies(res);
+      return redirect(res, '/studio/?error=email-unavailable');
+    }
     json(res, 500, { ok: false, error: error.message });
   }
 }

@@ -3,8 +3,8 @@ title: Oxígeno Pedri
 slug: oxigeno-pedri
 date: 2026-06-18
 excerpt: "Con Kees Smit no tendría prisa este verano. Es un talento que encaja muchísimo en la planificación futura del Barça: centrocampista técnico, con conducción, visión, pausa, capacidad para girar, personalidad con balón y…"
-image: /images/articles/oxigeno-pedri/legacy-1.jpg
-imageAlt: Oxígeno Pedri
+image: /images/articles/oxigeno-pedri/kees-smit.jpg
+imageAlt: Kees Smit jugando con el AZ Alkmaar
 category: Perfiles
 tags:
   - Kees Smit
