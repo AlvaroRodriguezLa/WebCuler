@@ -57,11 +57,11 @@ try {
   assert.equal(opaqueStats.channels.length, 3, 'opaque PNG remains opaque');
 } finally { await rm(photoTmp, { recursive: true, force: true }); }
 const fullArticle = await readFile('docs/one_shot_433_enriched_example.md', 'utf8');
-const playerCatalog = JSON.parse(await readFile('data/player-assets-manifest.json', 'utf8'));
+const playerAssetIds = JSON.parse(await readFile('data/player-asset-ids.json', 'utf8'));
 const publishedPlayerAssets = JSON.parse(await readFile('public/data/player-assets-approved.json', 'utf8'));
-assert.equal(playerCatalog.players.length, 47689);
-assert.equal(playerCatalog.players.find(({ assetKey }) => assetKey === 'tm:357565')?.canonicalName, 'Rodri');
-assert.ok(playerCatalog.players.every((player) => !('image_url' in player) && !('url' in player)));
+assert.equal(playerAssetIds.length, 47689);
+assert.ok(playerAssetIds.includes('tm:357565'));
+assert.ok(playerAssetIds.every((assetKey) => /^tm:\d+$/.test(assetKey)));
 assert.equal(Object.keys(publishedPlayerAssets.assets).length, 0, 'unlicensed remote images are excluded from the public catalog');
 assert.match(fullArticle, /^TITULO: La vuelta al 4-3-3/m);
 const extracted = extractPastedArticleTitle(fullArticle);
