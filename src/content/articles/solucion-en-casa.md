@@ -3,7 +3,7 @@ title: Solución en casa
 slug: solucion-en-casa
 date: 2026-07-28
 excerpt: Más allá de Kroupi y Asllani por inmediatez, no creo que el Barça necesite acudir al mercado para completar cada posición. Muchas de las respuestas ya están en la plantilla y en la Masia. En la portería, Áron…
-image: /images/articles/solucion-en-casa/legacy-1.png
+image: /images/articles/solucion-en-casa/cover.webp
 imageAlt: Solución en casa
 category: Cantera
 tags:

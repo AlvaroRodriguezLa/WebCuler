@@ -3,7 +3,7 @@ title: Perfil Faltante
 slug: perfil-faltante
 date: 2026-06-23
 excerpt: "Asllani era una de esas operaciones que tenían mucho sentido en mi mercado ideal porque te traía un perfil distinto. No era ficharlo como “el nuevo Kane” en cuanto a gol, porque ahí no hay comparación posible: Kane es…"
-image: /images/articles/perfil-faltante/fisnik-asllani.webp
+image: /images/articles/perfil-faltante/cover.webp
 imageAlt: Fisnik Asllani con la camiseta del Barça
 category: Perfiles
 tags:

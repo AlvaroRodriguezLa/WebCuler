@@ -3,7 +3,7 @@ title: Club Hermano
 slug: club-hermano
 date: 2026-08-01
 excerpt: "Woltemade solo tendría sentido si el mercado abre una ventana concreta: como oportunidad creativa, no como locura."
-image: /images/articles/club-hermano/legacy-1.png
+image: /images/articles/club-hermano/cover.webp
 imageAlt: Imagen editorial para Club Hermano
 category: Perfiles
 tags:

@@ -3,7 +3,7 @@ title: "Perfil Faltante"
 slug: perfil-faltante-fisnik-asllani
 date: "2026-09-20"
 excerpt: "Asllani no viene para ser Julián ni Kane. Viene para darle al Barça una alternativa que ahora mismo no tiene."
-image: /images/articles/perfil-faltante/fisnik-asllani.webp
+image: /images/articles/perfil-faltante-fisnik-asllani/cover.webp
 imageAlt: "Fisnik Asllani con la camiseta del Barça"
 category: "Perfiles de jugador"
 tags: [Fisnik Asllani, delantero, perfil, juego de espaldas]

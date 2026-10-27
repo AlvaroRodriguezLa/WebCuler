@@ -3,7 +3,7 @@ title: El Tapado
 slug: el-tapado
 date: 2026-06-23
 excerpt: "Si sale Raphinha, el Barça pierde mucho más que goles: pierde amenaza constante, presión, agresividad y un atacante capaz de vivir atacando espacios. Parte de eso ya lo cubre Anthony Gordon, que llega precisamente para…"
-image: /images/articles/el-tapado/andreas-schjelderup.webp
+image: /images/articles/el-tapado/cover.webp
 imageAlt: Andreas Schjelderup con la camiseta del Barça
 category: Perfiles
 tags:

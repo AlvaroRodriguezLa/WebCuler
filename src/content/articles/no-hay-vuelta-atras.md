@@ -3,7 +3,7 @@ title: No hay vuelta atrás
 slug: no-hay-vuelta-atras
 date: 2026-06-22
 excerpt: Julián Álvarez ha hecho el gesto que el Barça necesitaba. Ha hablado, ha dejado claro que quiere salir y ha dado ese paso que muchas veces marca la diferencia en una operación grande. En fichajes de este nivel no basta…
-image: /images/articles/no-hay-vuelta-atras/legacy-1.png
+image: /images/articles/no-hay-vuelta-atras/cover.webp
 imageAlt: No hay vuelta atrás
 category: Perfiles
 tags:

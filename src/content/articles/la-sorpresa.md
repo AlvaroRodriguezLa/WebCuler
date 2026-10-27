@@ -3,7 +3,7 @@ title: La Sorpresa
 slug: la-sorpresa
 date: 2026-07-01
 excerpt: Si Koundé consigue volver a su mejor nivel, la planificación del Barça cambia por completo. Ya no estarías obligado a ir al mercado por un lateral derecho ni por un central diestro suplente de Cubarsí, porque Eric no…
-image: /images/articles/la-sorpresa/lennart-karl.webp
+image: /images/articles/la-sorpresa/cover.webp
 imageAlt: Gráfico editorial original dedicado a Lennart Karl
 category: Perfiles
 tags:

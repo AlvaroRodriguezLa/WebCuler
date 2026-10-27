@@ -3,7 +3,7 @@ title: Nueve Total
 slug: nueve-total
 date: 2026-06-18
 excerpt: "Puedo entender todas las dudas con Harry Kane: edad, salario, fair play, amortización y falta de horizonte a largo plazo. Pero si hablamos estrictamente de fútbol, no hay un 9 más satisfactorio para este Barça. Porque…"
-image: /images/articles/nueve-total/legacy-1.jpg
+image: /images/articles/nueve-total/cover.webp
 imageAlt: Nueve Total
 category: Perfiles
 tags:

@@ -3,7 +3,7 @@ title: El nuevo Raphinha
 slug: el-nuevo-raphinha
 date: 2026-06-22
 excerpt: Anthony Gordon no era mi extremo ideal si el debate era imaginar el mercado perfecto, porque ese lugar lo ocupaba Yan Diomande. Pero dicho eso, el fichaje de Gordon me parece potentísimo y cada vez más lógico dentro del…
-image: /images/articles/el-nuevo-raphinha/anthony-gordon.webp
+image: /images/articles/el-nuevo-raphinha/cover.webp
 imageAlt: Anthony Gordon durante un partido
 category: Perfiles
 tags:

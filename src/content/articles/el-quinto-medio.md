@@ -3,7 +3,7 @@ title: El quinto Medio
 slug: el-quinto-medio
 date: 2026-06-22
 excerpt: En el medio del campo, cada vez parece más claro que el Barça no va a hacer una gran inversión, y quizá tampoco la necesita si el plan está bien trazado. Con Pedri, Gavi, De Jong y la vuelta de Bernal, ya tienes una…
-image: /images/articles/el-quinto-medio/legacy-1.png
+image: /images/articles/el-quinto-medio/cover.webp
 imageAlt: El quinto Medio
 category: Cantera
 tags:

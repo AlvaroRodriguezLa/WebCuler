@@ -3,7 +3,7 @@ title: Pieza Clave
 slug: pieza-clave
 date: 2026-06-22
 excerpt: "El central zurdo sigue siendo la gran posición estructural del mercado. Ahí estaba y ahí sigue estando una de las decisiones más importantes del Barça. Bastoni era, para mí, la opción que más elevaba el juego: un…"
-image: /images/articles/pieza-clave/legacy-1.png
+image: /images/articles/pieza-clave/cover.webp
 imageAlt: Pieza Clave
 category: Construcción de plantilla
 tags:

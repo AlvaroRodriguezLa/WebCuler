@@ -3,7 +3,7 @@ title: "El Tapado"
 slug: el-tapado-andreas-schjelderup
 date: "2026-09-18"
 excerpt: "No todo puede ser ruptura. El Barça también necesita pausa, creatividad y un jugador capaz de inventar cuando el partido no ofrece espacios."
-image: /images/articles/el-tapado/andreas-schjelderup.webp
+image: /images/articles/el-tapado-andreas-schjelderup/cover.webp
 imageAlt: "Andreas Schjelderup con la camiseta del Barça"
 category: "Perfiles de jugador"
 tags: [Andreas Schjelderup, extremo, creatividad, perfil]

@@ -3,7 +3,7 @@ title: Tercer Central
 slug: tercer-central
 date: 2026-06-22
 excerpt: El lateral derecho ha cambiado por completo respecto a lo que parecía hace unos meses. En mi mercado ideal, ese sitio estaba reservado para Palestra o, como alternativa más pragmática, Konrad Laimer. Palestra tenía…
-image: /images/articles/tercer-central/legacy-1.png
+image: /images/articles/tercer-central/cover.webp
 imageAlt: Tercer Central
 category: Construcción de plantilla
 tags:

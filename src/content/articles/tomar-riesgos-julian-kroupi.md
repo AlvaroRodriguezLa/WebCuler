@@ -3,7 +3,7 @@ title: Tomar Riesgos
 slug: tomar-riesgos-julian-kroupi
 date: 2026-09-22
 excerpt: Julián ofrece certeza. Kroupi, futuro. La decisión está en qué riesgo quiere asumir el Barça.
-image: /images/editorial-placeholder.svg
+image: /images/articles/tomar-riesgos-julian-kroupi/cover.webp
 imageAlt: Placeholder editorial para Tomar Riesgos
 category: Táctica y encaje
 tags:
