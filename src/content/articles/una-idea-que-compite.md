@@ -3,8 +3,8 @@ title: "No somos un club que juega al fútbol; somos una idea que compite"
 slug: una-idea-que-compite
 date: "2026-09-24"
 excerpt: "No somos un club que juega al fútbol; somos una idea que compite."
-image: /images/articles/una-idea-que-compite/cover.webp
-imageAlt: "Xavi Hernández y Leo Messi junto a la frase: No somos un club que juega al fútbol; somos una idea que compite"
+image: /images/articles/una-idea-que-compite/cover-collage.webp
+imageAlt: "Montaje editorial con figuras del Barça y su identidad futbolística"
 category: "Identidad Barça"
 tags: [identidad, filosofía, Barça]
 featured: true
