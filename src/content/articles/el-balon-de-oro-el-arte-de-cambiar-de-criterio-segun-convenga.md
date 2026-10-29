@@ -1,17 +1,17 @@
 ---
 title: "El Balón de Oro: el arte de cambiar de criterio según convenga"
 slug: el-balon-de-oro-el-arte-de-cambiar-de-criterio-segun-convenga
-date: "2026-10-27"
-excerpt: "Al Balón de Oro no le faltan criterios. Le sobran excusas. Cada año parece encontrar una justificación diferente para explicar por qué lo que ayer era imprescindible hoy es completamente irrelevante. Y la comparación ent"
+date: 2026-10-27
+excerpt: Al Balón de Oro no le faltan criterios. Le sobran excusas. Cada año parece encontrar una justificación diferente para explicar por qué lo que ayer era imprescindible hoy es completamente irrelevante. Y la comparación ent
 image: /uploads/el-balon-de-oro-el-arte-de-cambiar-de-criterio-segun-convenga-1793103944447.webp
 imageAlt: "Imagen editorial para El Balón de Oro: el arte de cambiar de criterio según convenga"
-category: "Análisis"
+category: Análisis
 tags: []
 featured: false
 evergreen: false
 draft: false
 showPlayerPhotos: false
-readingTime: 3
+readingTime: 4
 imageFit: contain
 imagePosition: center
 ---
@@ -33,7 +33,7 @@ En 2025, **Raphinha** firmó 34 goles y 25 asistencias, ganó Liga, Copa y Super
     {"value": "14", "label": "Participaciones de Dembélé en Champions", "description": "Referencia comparativa aportada en el texto."},
     {"value": "5.º", "label": "Balón de Oro", "description": "Pese al triplete nacional español."}
   ],
-  "caption": "Datos del texto original, pendientes de contraste con fuentes oficiales."
+  "caption": "Datos del análisis original, pendientes de contraste con fuentes oficiales."
 }
 ```
 
@@ -53,7 +53,7 @@ Un año después, **Harry Kane** gana el Balón de Oro con 73 goles entre club y
     {"value": "0", "label": "Champions ganadas", "description": "El Bayern cayó en semifinales."},
     {"value": "1.º", "label": "Balón de Oro", "description": "Sin conquistar tampoco el Mundial."}
   ],
-  "caption": "Datos del texto original, pendientes de contraste con fuentes oficiales."
+  "caption": "Datos del análisis original, pendientes de contraste con fuentes oficiales."
 }
 ```
 
@@ -120,7 +120,44 @@ Con **Messi** ya conocimos esta película. En **2018** ganó Liga, Copa y Bota d
 
 El mismo premio que le negó peso suficiente a la producción individual de Messi o Raphinha lo reivindica para Kane. El mismo premio que hizo del Mundial una razón casi definitiva para Cannavaro lo relativiza ante Lamine, Rodri y Cubarsí.
 
-## 5. No discuto al ganador. Discuto las reglas cambiantes
+## 5. PSG y Arsenal: el valor de una tanda de penaltis
+
+Y quizá el ejemplo más absurdo de esta manera de valorar el fútbol sea la diferencia de reconocimiento entre el PSG y el Arsenal. Los ingleses conquistaron la Premier League, probablemente el campeonato doméstico más exigente del mundo, acabando con 22 años de sequía, mientras el PSG ganó una Ligue 1 de una exigencia competitiva difícilmente comparable. Ambos llegaron a la final de Champions, empataron 1-1 después de 120 minutos y el título se decidió en una tanda de penaltis (4-3). No hablamos de una eliminatoria desigual, ni siquiera de un partido ganado en el tiempo reglamentario. **Hablamos de una tanda de penaltis.** Sin embargo, el PSG coloca a Kvaratskhelia sexto, Dembélé séptimo y Fabián décimo, mientras que el primer jugador del Arsenal, Declan Rice, aparece decimoquinto; Gabriel es vigesimoprimero y Saliba, vigesimonoveno. ¿De verdad existe semejante abismo entre las plantillas de dos equipos separados por unos lanzamientos desde los once metros? ¿Si Gabriel hubiera marcado su penalti, los futbolistas del Arsenal serían repentinamente mejores y los del PSG peores? **El resultado de una tanda puede decidir quién levanta una copa. Lo que no debería decidir es cuánto vale futbolísticamente cada jugador durante toda una temporada.**
+
+```stats
+{
+  "schemaVersion": 1,
+  "title": "PSG · Tres futbolistas entre los diez primeros",
+  "items": [
+    {"value": "6.º", "label": "Kvaratskhelia", "description": "Posición en el Balón de Oro."},
+    {"value": "7.º", "label": "Dembélé", "description": "Posición en el Balón de Oro."},
+    {"value": "10.º", "label": "Fabián Ruiz", "description": "Posición en el Balón de Oro."}
+  ],
+  "caption": "Clasificaciones indicadas en el texto facilitado; no verificadas independientemente."
+}
+```
+
+```stats
+{
+  "schemaVersion": 1,
+  "title": "Arsenal · El primer clasificado aparece 15.º",
+  "items": [
+    {"value": "15.º", "label": "Declan Rice", "description": "Primer futbolista del Arsenal en la clasificación."},
+    {"value": "21.º", "label": "Gabriel", "description": "Posición en el Balón de Oro."},
+    {"value": "29.º", "label": "Saliba", "description": "Posición en el Balón de Oro."}
+  ],
+  "caption": "Clasificaciones indicadas en el texto facilitado; no verificadas independientemente."
+}
+```
+
+```insight
+{
+  "schemaVersion": 1,
+  "text": "120 minutos, 1-1. Una tanda de penaltis, 4-3. ¿Puede esa diferencia explicar que tres jugadores del PSG entren en el top diez y ninguno del Arsenal entre en los diez primeros?"
+}
+```
+
+## 6. No discuto al ganador. Discuto las reglas cambiantes
 
 No niego los méritos de **Kane** ni los de **Dembélé**. Son futbolistas capaces de firmar temporadas extraordinarias. Lo que niego es la coherencia de un premio que parece valorar cada mérito de manera distinta según quién lo presente.
 
