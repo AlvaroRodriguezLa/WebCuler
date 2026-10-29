@@ -4,7 +4,7 @@ export const siteConfig = {
   description: 'Una publicación editorial personal sobre fútbol, identidad Barça, táctica y construcción de equipos.',
   author: 'ScarFace2824',
   language: 'es-ES',
-  baseUrl: import.meta.env.PUBLIC_SITE_URL || 'https://example.github.io',
+  baseUrl: import.meta.env.PUBLIC_SITE_URL || 'https://1shot-studio.vercel.app',
 };
 
 export const categoryConfig = [

@@ -20,7 +20,7 @@ const articleUrl = `${import.meta.env.BASE_URL}articulos/${data.slug}/`;
 const socialImage = `${import.meta.env.BASE_URL}social/${data.slug}.png`;
 const redirectUrl = data.redirectTo ? new URL(sitePath(`/articulos/${data.redirectTo}/`), Astro.url).toString() : undefined;
 ---
-<BaseLayout title={data.title} description={description} canonical={redirectUrl || new URL(articleUrl, Astro.site || 'https://example.github.io').toString()} socialImage={data.redirectTo ? undefined : socialImage}>
+<BaseLayout title={data.title} description={description} canonical={redirectUrl || new URL(articleUrl, Astro.site || 'https://1shot-studio.vercel.app').toString()} socialImage={data.redirectTo ? undefined : socialImage}>
   {redirectUrl && <meta slot="head" http-equiv="refresh" content={`0;url=${redirectUrl}`} />}
   {redirectUrl ? <section class="wrapper page-intro archive-redirect">
     <p class="eyebrow">Artículo trasladado</p>
@@ -45,8 +45,8 @@ const redirectUrl = data.redirectTo ? new URL(sitePath(`/articulos/${data.redire
               <div><div class="meta-label">Lectura</div><div class="meta-value">{data.readingTime || readingTime(article.body || data.excerpt)} min</div></div>
             </div>
             <div class="article-actions">
-              <button class="text-button" type="button" data-copy-link data-url={new URL(articleUrl, Astro.site || 'https://example.github.io').toString()}>Copiar enlace</button>
-              <a class="text-button" href={`https://x.com/intent/post?text=${encodeURIComponent(`${data.title} — ${new URL(articleUrl, Astro.site || 'https://example.github.io').toString()}`)}`} target="_blank" rel="noreferrer">Compartir en X</a>
+              <button class="text-button" type="button" data-copy-link data-url={new URL(articleUrl, Astro.site || 'https://1shot-studio.vercel.app').toString()}>Copiar enlace</button>
+              <a class="text-button" href={`https://x.com/intent/post?text=${encodeURIComponent(`${data.title} — ${new URL(articleUrl, Astro.site || 'https://1shot-studio.vercel.app').toString()}`)}`} target="_blank" rel="noreferrer">Compartir en X</a>
             </div>
             {data.tags.length > 0 && <div class="tags">{data.tags.map((tag) => <span class="tag">#{tag}</span>)}</div>}
           </figcaption>
