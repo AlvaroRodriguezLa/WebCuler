@@ -355,8 +355,8 @@ Lamine podría partir desde la derecha, pero aparecer por dentro de manera más 
         "y": 44
       },
       {
-        "id": "gavi",
-        "name": "Gavi",
+        "id": "dejong" ,
+        "name": "De Jong",
         "x": 68,
         "y": 44
       },
