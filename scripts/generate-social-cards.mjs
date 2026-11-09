@@ -3,8 +3,31 @@ import path from 'node:path';
 import sharp from 'sharp';
 
 const contentDir = path.resolve('src/content/articles');
-const outputDir = path.resolve('public/social');
+const publicDir = path.resolve('public');
+const outputDir = path.join(publicDir, 'social');
 await fs.mkdir(outputDir, { recursive: true });
+
+// La tarjeta para X y Open Graph muestra la portada real del artículo.
+// Mantener la imagen completa evita cortar retratos, esquemas tácticos y carteles.
+async function generateCoverCard(cover, outputFile) {
+  if (typeof cover !== 'string' || !cover.startsWith('/') || cover.startsWith('//')) return false;
+  if (cover === '/images/editorial-placeholder.svg') return false;
+
+  const imagePath = path.resolve(publicDir, '.' + cover);
+  if (!imagePath.startsWith(publicDir + path.sep)) return false;
+
+  try {
+    await sharp(imagePath)
+      .rotate()
+      .resize(1200, 630, { fit: 'contain', background: '#e7e5df' })
+      .png({ compressionLevel: 9 })
+      .toFile(outputFile);
+    return true;
+  } catch (error) {
+    console.warn(`[social] No se pudo procesar ${cover}: ${error.message}`);
+    return false;
+  }
+}
 
 function frontmatter(source) {
   const match = source.match(/^---\n([\s\S]*?)\n---/);
@@ -40,7 +63,17 @@ const generatedSlugs = new Set();
 for (const file of files) {
   const data = frontmatter(await fs.readFile(path.join(contentDir, file), 'utf8'));
   if (data.draft === 'true' || data.redirectTo) continue;
-  generatedSlugs.add(data.slug || file.replace(/\.md$/, ''));
+  const slug = data.slug || file.replace(/\.md$/, '');
+  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) {
+    throw new Error(`Slug de artículo no válido: ${slug}`);
+  }
+  generatedSlugs.add(slug);
+  const outputFile = path.join(outputDir, `${slug}.png`);
+  if (await generateCoverCard(data.image, outputFile)) {
+    console.log(`[social] ${slug}: portada del artículo`);
+    continue;
+  }
+  console.warn(`[social] ${slug}: tarjeta editorial de reserva`);
   const titleLines = wrap(data.title || 'ONE SHOT');
   const title = titleLines.map((line, index) => `<text x="72" y="${174 + index * 78}" fill="#20201f" font-family="Arial,Helvetica,sans-serif" font-size="68" font-weight="700">${escapeXml(line)}</text>`).join('');
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
@@ -55,7 +88,7 @@ for (const file of files) {
     <text x="72" y="540" fill="#20201f" font-family="Arial,Helvetica,sans-serif" font-size="22" letter-spacing="6">SCARFACE2824</text>
     <text x="842" y="535" fill="#8c201d" font-family="Arial,Helvetica,sans-serif" font-size="18" letter-spacing="4">IMAGEN EDITORIAL</text>
   </svg>`;
-  await sharp(Buffer.from(svg)).png().toFile(path.join(outputDir, `${data.slug}.png`));
+  await sharp(Buffer.from(svg)).png().toFile(outputFile);
 }
 
 for (const file of await fs.readdir(outputDir)) {
